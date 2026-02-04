@@ -56,8 +56,8 @@ export function Sidebar({
         <div className="flex h-[31px] items-center gap-3">
           <div className="flex size-10 items-center justify-center overflow-hidden rounded-xl">
             <img
-              src="/ijsclub%20icoon.svg"
-              alt="IJsclub Tilburg"
+              src="/schaats.svg"
+              alt="Schaatsapp"
               className="size-10 object-contain dark:invert"
             />
           </div>
