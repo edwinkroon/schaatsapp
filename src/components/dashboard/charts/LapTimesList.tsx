@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SchaatsLap } from "@/lib/data";
-import { formatLapTime } from "@/lib/utils";
+import { formatLapTimeSeconds } from "@/lib/utils";
 
 interface LapTimesListProps {
   laps: SchaatsLap[];
@@ -26,22 +26,22 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
           Alle ronden van de geselecteerde dag
         </p>
       </CardHeader>
-      <CardContent>
-        <div className="overflow-x-auto max-h-[400px] overflow-y-auto">
-          <Table>
+      <CardContent className="p-3 sm:p-4 md:p-6">
+        <div className="overflow-x-auto max-h-[280px] sm:max-h-[350px] md:max-h-[400px] overflow-y-auto -mx-2 sm:mx-0 px-2 sm:px-0">
+          <Table className="text-xs sm:text-sm min-w-[320px] sm:min-w-0 table-fixed w-full">
             <TableHeader>
               <TableRow>
-                <TableHead className="w-14">Ronde</TableHead>
-                <TableHead>Tijd</TableHead>
-                <TableHead>Snelheid</TableHead>
-                <TableHead>Baan</TableHead>
+                <TableHead className="w-1/4">Ronde</TableHead>
+                <TableHead className="w-1/4 text-right">Tijd</TableHead>
+                <TableHead className="w-1/4">Snelheid</TableHead>
+                <TableHead className="w-1/4">Baan</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {laps.map((lap, i) => (
                 <TableRow key={`${lap.datum}-${lap.lap_num}-${i}`}>
                   <TableCell className="font-medium">{i + 1}</TableCell>
-                  <TableCell>{formatLapTime(lap.lap_time)}</TableCell>
+                  <TableCell className="text-right tabular-nums">{formatLapTimeSeconds(lap.lap_time)} s</TableCell>
                   <TableCell>{lap.snelheid.toFixed(1)} km/h</TableCell>
                   <TableCell>{lap.baan || "—"}</TableCell>
                 </TableRow>

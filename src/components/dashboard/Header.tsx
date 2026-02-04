@@ -1,6 +1,6 @@
 import { Moon, Sun } from "lucide-react";
 import { Switch } from "@/components/ui/switch";
-import { cn } from "@/lib/utils";
+import { cn, formatLapTimeSeconds } from "@/lib/utils";
 
 interface HeaderProps {
   darkMode: boolean;
@@ -25,7 +25,7 @@ export function Header({
     <header
       role="banner"
       className={cn(
-        "header-glass flex h-14 items-center justify-between border-b border-border bg-background/80 px-6",
+        "header-glass flex h-14 shrink-0 items-center justify-between gap-2 border-b border-border bg-background/80 px-3 sm:px-4 md:px-6",
         className
       )}
     >
@@ -39,7 +39,7 @@ export function Header({
               {stats.totalLaps} Ronden
             </span>
             <span className="text-muted-foreground rounded-full bg-muted/60 px-3 py-1 text-sm font-medium">
-              Ø {stats.avgLapTime}s
+              Ø {formatLapTimeSeconds(stats.avgLapTime)} s
             </span>
             <span className="text-muted-foreground rounded-full bg-muted/60 px-3 py-1 text-sm font-medium">
               Ø {stats.avgSnelheid} km/h

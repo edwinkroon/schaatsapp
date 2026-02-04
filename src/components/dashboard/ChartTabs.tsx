@@ -26,13 +26,13 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, className }
       aria-label="Grafiek tabs"
     >
       <TabsList
-        className="flex h-auto flex-wrap gap-1.5 rounded-xl bg-muted/60 p-1.5"
+        className="flex h-auto flex-wrap gap-1 rounded-lg sm:gap-1.5 sm:rounded-xl bg-muted/60 p-1 sm:p-1.5 w-full sm:w-auto justify-start overflow-x-auto sm:overflow-visible"
         role="tablist"
         aria-label="Selecteer grafiek"
       >
         <TabsTrigger
           value="grafieken"
-          className="rounded-lg px-4 py-2 text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm"
+          className="rounded-md px-3 py-2.5 text-xs sm:rounded-lg sm:px-4 sm:py-2 sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm min-h-[44px] sm:min-h-0 shrink-0 touch-manipulation"
           role="tab"
           aria-selected="false"
         >
@@ -40,28 +40,28 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, className }
         </TabsTrigger>
         <TabsTrigger
           value="records"
-          className="rounded-lg px-4 py-2 text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm"
+          className="rounded-md px-3 py-2.5 text-xs sm:rounded-lg sm:px-4 sm:py-2 sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm min-h-[44px] sm:min-h-0 shrink-0 touch-manipulation"
           role="tab"
         >
-          Persoonlijke records
+          Records
         </TabsTrigger>
         <TabsTrigger
           value="seizoenen"
-          className="rounded-lg px-4 py-2 text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm"
+          className="rounded-md px-3 py-2.5 text-xs sm:rounded-lg sm:px-4 sm:py-2 sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm min-h-[44px] sm:min-h-0 shrink-0 touch-manipulation"
           role="tab"
         >
           Seizoenen
         </TabsTrigger>
         <TabsTrigger
           value="weekdagen"
-          className="rounded-lg px-4 py-2 text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm"
+          className="rounded-md px-3 py-2.5 text-xs sm:rounded-lg sm:px-4 sm:py-2 sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm min-h-[44px] sm:min-h-0 shrink-0 touch-manipulation"
           role="tab"
         >
           Weekdagen
         </TabsTrigger>
         <TabsTrigger
           value="ijsbanen"
-          className="rounded-lg px-4 py-2 text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm"
+          className="rounded-md px-3 py-2.5 text-xs sm:rounded-lg sm:px-4 sm:py-2 sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm min-h-[44px] sm:min-h-0 shrink-0 touch-manipulation"
           role="tab"
         >
           IJsbanen

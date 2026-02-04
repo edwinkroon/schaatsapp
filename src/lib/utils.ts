@@ -5,11 +5,28 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-/** Format seconden naar m:ss.s (bijv. 42.3 → "0:42.3", 65.5 → "1:05.5") */
+/**
+ * Format seconden naar ss.hh of mm:ss.hh
+ * - Onder de minuut: ss.hh (bijv. 42.35 → "42.35")
+ * - Een minuut of meer: mm:ss.hh (bijv. 65.5 → "1:05.50")
+ */
+export function formatLapTimeSeconds(seconds: number): string {
+  if (seconds < 60) {
+    return seconds.toFixed(2);
+  }
+  const m = Math.floor(seconds / 60);
+  const sec = seconds % 60;
+  const s = sec.toFixed(2);
+  const [intPart, decPart] = s.split(".");
+  const padded = intPart!.padStart(2, "0") + (decPart ? `.${decPart}` : "");
+  return `${m}:${padded}`;
+}
+
+/** Format seconden naar m:ss.hh (altijd met minuten, bijv. 42.35 → "0:42.35") */
 export function formatLapTime(seconds: number): string {
   const m = Math.floor(seconds / 60);
   const sec = seconds % 60;
-  const s = sec.toFixed(1);
+  const s = sec.toFixed(2);
   const [intPart, decPart] = s.split(".");
   const padded = intPart!.padStart(2, "0") + (decPart ? `.${decPart}` : "");
   return `${m}:${padded}`;

@@ -11,6 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SchaatsLap } from "@/lib/data";
 import { getVenueComparisonData } from "@/lib/chart-utils";
+import { formatLapTimeSeconds } from "@/lib/utils";
 
 interface VenueComparisonChartProps {
   laps: SchaatsLap[];
@@ -49,13 +50,13 @@ function VenueComparisonChartInner({ laps }: VenueComparisonChartProps) {
           Ronden, gem. lap tijd en snelheid per baan
         </p>
       </CardHeader>
-      <CardContent>
-        <div className="h-[300px] w-full min-w-0">
+      <CardContent className="p-3 sm:p-4 md:p-6">
+        <div className="h-[240px] sm:h-[280px] md:h-[300px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
-            <BarChart data={data} margin={{ top: 8, right: 8, left: 0, bottom: 8 }}>
+            <BarChart data={data} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
-              <XAxis dataKey="baan" tick={{ fontSize: 12 }} />
-              <YAxis tick={{ fontSize: 12 }} />
+              <XAxis dataKey="baan" tick={{ fontSize: 9 }} className="text-[9px] sm:text-xs" angle={-35} textAnchor="end" height={56} />
+              <YAxis tick={{ fontSize: 10 }} className="text-[10px] sm:text-xs" />
               <Tooltip
                 contentStyle={tooltipStyle}
                 content={({ active, payload }) =>
@@ -66,7 +67,7 @@ function VenueComparisonChartInner({ laps }: VenueComparisonChartProps) {
                         Ronden: <span className="text-foreground font-medium">{payload[0].payload.laps}</span>
                       </p>
                       <p className="text-muted-foreground">
-                        Gem. lap tijd: <span className="text-foreground font-medium">{payload[0].payload.avgLapTime} s</span>
+                        Gem. lap tijd: <span className="text-foreground font-medium">{formatLapTimeSeconds(payload[0].payload.avgLapTime)} s</span>
                       </p>
                       <p className="text-muted-foreground">
                         Gem. snelheid: <span className="text-foreground font-medium">{payload[0].payload.avgSnelheid} km/h</span>

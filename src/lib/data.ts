@@ -128,7 +128,7 @@ export function generateMockSchaatsData(
 
   for (let i = 1; i <= total; i++) {
     // Lap time tussen 35-55 seconden (400m baan)
-    const lapTime = Math.round(randomBetween(35, 55) * 10) / 10;
+    const lapTime = Math.round(randomBetween(35, 55) * 100) / 100;
     // Baan willekeurig
     const baan = BANEN[Math.floor(Math.random() * BANEN.length)];
     // Snelheid berekend: 400m = 0.4km, km/h = 0.4 / (lapTime/3600) = 1440/lapTime
@@ -170,7 +170,7 @@ function normalizeRow(row: Record<string, unknown>): SchaatsLap | null {
   if (!lap_num || !lap_time) return null;
   return {
     lap_num: Math.round(lap_num),
-    lap_time: Math.round(lap_time * 10) / 10,
+    lap_time: Math.round(lap_time * 100) / 100,
     baan: baan || "Onbekend",
     datum: datum || new Date().toISOString().split("T")[0],
     snelheid,

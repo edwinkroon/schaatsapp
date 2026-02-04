@@ -57,7 +57,7 @@ export function getWeekdayData(laps: SchaatsLap[]) {
     return {
       weekday: label,
       laps,
-      avgTime: laps > 0 ? Math.round((totalTime / laps) * 10) / 10 : 0,
+      avgTime: laps > 0 ? Math.round((totalTime / laps) * 100) / 100 : 0,
     };
   });
 }
@@ -83,7 +83,7 @@ export function getVenueComparisonData(laps: SchaatsLap[]) {
   return Array.from(byVenue.entries()).map(([baan, { laps, totalTime, totalSnelheid }]) => ({
     baan,
     laps,
-    avgLapTime: Math.round((totalTime / laps) * 10) / 10,
+    avgLapTime: Math.round((totalTime / laps) * 100) / 100,
     avgSnelheid: Math.round((totalSnelheid / laps) * 10) / 10,
   }));
 }

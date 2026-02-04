@@ -11,7 +11,7 @@ import {
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { EmptyState } from "@/components/EmptyState";
 import type { SchaatsLap } from "@/lib/data";
-import { formatDateDisplay } from "@/lib/utils";
+import { formatDateDisplay, formatLapTimeSeconds } from "@/lib/utils";
 import { getTop10Bests } from "@/lib/chart-utils";
 
 interface Top10TableProps {
@@ -46,14 +46,14 @@ function Top10TableInner({ laps }: Top10TableProps) {
           Snelste rondes op lap tijd (laagste = beste)
         </p>
       </CardHeader>
-      <CardContent>
-        <div className="overflow-x-auto">
-          <Table>
+      <CardContent className="p-3 sm:p-4 md:p-6">
+        <div className="overflow-x-auto -mx-1 sm:mx-0">
+          <Table className="min-w-[400px] sm:min-w-0 text-sm">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-12">#</TableHead>
                 <TableHead>Datum</TableHead>
-                <TableHead>Lap tijd (s)</TableHead>
+                <TableHead className="text-right">Lap tijd (s)</TableHead>
                 <TableHead>Snelheid (km/h)</TableHead>
                 <TableHead>Baan</TableHead>
               </TableRow>
@@ -63,7 +63,7 @@ function Top10TableInner({ laps }: Top10TableProps) {
                 <TableRow key={row.rank}>
                   <TableCell className="font-medium">{row.rank}</TableCell>
                   <TableCell>{formatDateDisplay(row.datum)}</TableCell>
-                  <TableCell>{row.lap_time}</TableCell>
+                  <TableCell className="text-right tabular-nums">{formatLapTimeSeconds(row.lap_time)}</TableCell>
                   <TableCell>{row.snelheid}</TableCell>
                   <TableCell>{row.baan}</TableCell>
                 </TableRow>

@@ -37,7 +37,7 @@ export function lapDataToSchaatsLaps(
       lapTime > 0 ? Math.round((1440 / lapTime) * 10) / 10 : 0;
     result.push({
       lap_num: seq++,
-      lap_time: Math.round(lapTime * 10) / 10,
+      lap_time: Math.round(lapTime * 100) / 100,
       baan: lap.venue || "Onbekend",
       datum: lap.date || dateToLocalDateString(new Date()),
       snelheid,

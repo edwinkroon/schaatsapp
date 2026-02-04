@@ -161,7 +161,7 @@ export function useSchaatsData(): UseSchaatsDataReturn {
 
     return {
       totalLaps: data.length,
-      avgLapTime: Math.round((totalLapTime / data.length) * 10) / 10,
+      avgLapTime: Math.round((totalLapTime / data.length) * 100) / 100,
       avgSnelheid: Math.round((totalSnelheid / data.length) * 10) / 10,
       bestLap,
       worstLap,

@@ -119,7 +119,7 @@ function SeasonHeatmapInner({ laps }: SeasonHeatmapProps) {
             onValueChange={(v) => setSelectedSeason(parseInt(v, 10))}
             aria-label="Selecteer seizoen"
           >
-            <SelectTrigger className="w-[140px] shrink-0">
+            <SelectTrigger className="w-full sm:w-[140px] shrink-0">
               <SelectValue placeholder="Seizoen" />
             </SelectTrigger>
             <SelectContent>
@@ -132,16 +132,16 @@ function SeasonHeatmapInner({ laps }: SeasonHeatmapProps) {
           </Select>
         )}
       </CardHeader>
-      <CardContent>
+      <CardContent className="p-3 sm:p-4 md:p-6">
         <TooltipProvider>
-          <div className="flex flex-wrap gap-1">
+          <div className="flex flex-wrap gap-0.5 sm:gap-1">
             {cells.map((cell) => {
               const opacity = 0.2 + cell.intensity * 0.8;
               return (
               <Tooltip key={cell.date}>
                 <TooltipTrigger asChild>
                   <div
-                    className="h-6 min-w-[12px] flex-1 rounded-sm transition-opacity hover:opacity-80"
+                    className="h-4 sm:h-5 md:h-6 min-w-[8px] sm:min-w-[10px] md:min-w-[12px] flex-1 rounded-sm transition-opacity hover:opacity-80"
                     style={{
                       backgroundColor: `oklch(0.6 0.2 250 / ${opacity})`,
                     }}

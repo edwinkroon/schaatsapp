@@ -11,7 +11,7 @@ import {
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SchaatsLap } from "@/lib/data";
-import { formatDateDisplay } from "@/lib/utils";
+import { formatDateDisplay, formatLapTimeSeconds } from "@/lib/utils";
 import { getLapTimeChartData } from "@/lib/chart-utils";
 
 interface LapTimeLineChartProps {
@@ -66,19 +66,21 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
           Gebruik de slider onder de grafiek om in te zoomen. Sleep om het bereik te verplaatsen.
         </p>
       </CardHeader>
-      <CardContent>
-        <div className="h-[350px] w-full min-w-0">
+      <CardContent className="p-3 sm:p-4 md:p-6">
+        <div className="h-[220px] sm:h-[280px] md:h-[350px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={displayData} margin={{ top: 8, right: 8, left: 0, bottom: 8 }}>
+            <LineChart data={displayData} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
               <XAxis
                 dataKey="lap"
-                tick={{ fontSize: 12 }}
+                tick={{ fontSize: 9 }}
+                className="text-[9px] sm:text-xs"
                 tickFormatter={(v) => `#${v}`}
               />
               <YAxis
-                tick={{ fontSize: 12 }}
-                tickFormatter={(v) => `${v}s`}
+                tick={{ fontSize: 9 }}
+                className="text-[9px] sm:text-xs"
+                tickFormatter={(v) => `${formatLapTimeSeconds(v)} s`}
                 domain={["auto", "auto"]}
               />
               <Tooltip
@@ -88,7 +90,7 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
                     <div style={tooltipStyle} className="text-sm">
                       <p className="font-medium">Ronde #{label}</p>
                       <p className="text-muted-foreground">
-                        Lap tijd: <span className="text-foreground font-medium">{payload[0].value} s</span>
+                        Lap tijd: <span className="text-foreground font-medium">{formatLapTimeSeconds(Number(payload[0].value))} s</span>
                       </p>
                       {payload[0].payload.datum && (
                         <p className="text-muted-foreground text-xs">{formatDateDisplay(payload[0].payload.datum)}</p>
@@ -108,7 +110,7 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
               {data.length > 20 && (
                 <Brush
                   dataKey="lap"
-                  height={28}
+                  height={24}
                   stroke="var(--primary)"
                   fill="var(--muted)"
                   startIndex={brushRange.startIndex}

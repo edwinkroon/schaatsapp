@@ -25,10 +25,16 @@ import { Card, CardHeader, CardTitle } from "@/components/ui/card";
 const LAP_DISTANCE_KM = 0.4;
 
 const DEBOUNCE_MS = 500;
+const STORAGE_KEY_TRANSPONDER = "schaatsapp-transponder";
 
 export function Dashboard() {
-  const [transponder, setTransponder] = useState("FZ-62579");
-  const [debouncedTransponder, setDebouncedTransponder] = useState("FZ-62579");
+  const [transponder, setTransponder] = useState(() => {
+    if (typeof window !== "undefined") {
+      return localStorage.getItem(STORAGE_KEY_TRANSPONDER) || "FZ-62579";
+    }
+    return "FZ-62579";
+  });
+  const [debouncedTransponder, setDebouncedTransponder] = useState(transponder);
   const [selectedDate, setSelectedDate] = useState<string>("");
 
   const { data: liveData, loading, error, refetch } = useLiveLapsData({
@@ -47,6 +53,12 @@ export function Dashboard() {
     document.documentElement.classList.toggle("dark", darkMode);
     localStorage.setItem("darkMode", String(darkMode));
   }, [darkMode]);
+
+  useEffect(() => {
+    if (transponder.trim()) {
+      localStorage.setItem(STORAGE_KEY_TRANSPONDER, transponder.trim());
+    }
+  }, [transponder]);
 
   useEffect(() => {
     const id = setTimeout(() => setDebouncedTransponder(transponder), DEBOUNCE_MS);
@@ -121,7 +133,7 @@ export function Dashboard() {
     );
     return {
       totalLaps: displayLaps.length,
-      avgLapTime: Math.round((totalLapTime / displayLaps.length) * 10) / 10,
+      avgLapTime: Math.round((totalLapTime / displayLaps.length) * 100) / 100,
       avgSnelheid: Math.round((totalSnelheid / displayLaps.length) * 10) / 10,
       maxSnelheid: Math.round(maxSnelheid * 10) / 10,
       bestLap,
@@ -158,7 +170,7 @@ export function Dashboard() {
         />
         <main
           id="main-content"
-          className="bg-dashboard flex-1 overflow-auto p-6"
+          className="bg-dashboard flex-1 overflow-auto px-3 py-4 sm:px-4 sm:py-5 md:px-6 md:py-6 min-w-0"
           role="main"
           aria-label="Dashboard inhoud"
         >
@@ -168,11 +180,11 @@ export function Dashboard() {
             </div>
           )}
           {displayLaps.length === 0 && filteredLaps.length === 0 && !loading ? (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6 max-w-full min-w-0">
               <Card className="border-primary/20 shadow-lg">
-                <CardHeader>
-                  <CardTitle className="text-xl">Welkom bij Schaatsapp</CardTitle>
-                  <p className="text-muted-foreground">
+                <CardHeader className="p-4 sm:p-6">
+                  <CardTitle className="text-lg sm:text-xl">Welkom bij Schaatsapp</CardTitle>
+                  <p className="text-muted-foreground text-sm sm:text-base">
                     Open de sidebar (☰) en vul je transponder-ID in. De data
                     wordt automatisch geladen.
                   </p>
@@ -180,7 +192,7 @@ export function Dashboard() {
               </Card>
             </div>
           ) : (
-            <div className="space-y-6">
+            <div className="space-y-4 sm:space-y-6 max-w-full min-w-0">
               {loading && (
                 <p className="text-muted-foreground" role="status">
                   Live data laden...
