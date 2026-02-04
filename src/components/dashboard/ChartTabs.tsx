@@ -1,6 +1,8 @@
 import { memo } from "react";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LapTimeLineChart } from "./charts/LapTimeLineChart";
+import { SpeedLineChart } from "./charts/SpeedLineChart";
+import { ProgressChart } from "./charts/ProgressChart";
 import { Top10Table } from "./charts/Top10Table";
 import { SeasonHeatmap } from "./charts/SeasonHeatmap";
 import { ChartSkeleton, TableSkeleton, HeatmapSkeleton } from "@/components/ChartSkeleton";
@@ -13,10 +15,34 @@ interface ChartTabsProps {
   /** Volledige dataset voor seizoensdropdown (zonder lap-range filter) */
   allLapsForSeasons?: SchaatsLap[];
   isLoading?: boolean;
+  /** Alleen grafieken tonen (geen Records/Seizoenen tabs) – voor mobiele Grafieken-tab */
+  chartsOnly?: boolean;
   className?: string;
 }
 
-function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, className }: ChartTabsProps) {
+function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, chartsOnly = false, className }: ChartTabsProps) {
+  const grafiekenContent = (
+    <div className="space-y-6">
+      <ErrorBoundary>
+        {isLoading ? <ChartSkeleton /> : <LapTimeLineChart laps={laps} />}
+      </ErrorBoundary>
+      <ErrorBoundary>
+        {isLoading ? <ChartSkeleton /> : <SpeedLineChart laps={laps} />}
+      </ErrorBoundary>
+      <ErrorBoundary>
+        {isLoading ? <ChartSkeleton /> : <ProgressChart laps={allLapsForSeasons} />}
+      </ErrorBoundary>
+    </div>
+  );
+
+  if (chartsOnly) {
+    return (
+      <div className={cn("w-full", className)}>
+        {grafiekenContent}
+      </div>
+    );
+  }
+
   return (
     <Tabs
       defaultValue="grafieken"
@@ -53,9 +79,7 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, className }
       </TabsList>
 
       <TabsContent value="grafieken" className="mt-3" role="tabpanel">
-        <ErrorBoundary>
-          {isLoading ? <ChartSkeleton /> : <LapTimeLineChart laps={laps} />}
-        </ErrorBoundary>
+        {grafiekenContent}
       </TabsContent>
 
       <TabsContent value="records" className="mt-3" role="tabpanel">

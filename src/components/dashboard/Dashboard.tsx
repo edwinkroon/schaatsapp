@@ -6,10 +6,9 @@ import { ChartTabs } from "./ChartTabs";
 import { DateSelector } from "./DateSelector";
 import { LapTimesList } from "./charts/LapTimesList";
 import { StatsCards } from "./StatsCards";
-import { LapTimeLineChart } from "./charts/LapTimeLineChart";
 import { Top10Table } from "./charts/Top10Table";
 import { SeasonHeatmap } from "./charts/SeasonHeatmap";
-import { ChartSkeleton, TableSkeleton, HeatmapSkeleton } from "@/components/ChartSkeleton";
+import { TableSkeleton, HeatmapSkeleton } from "@/components/ChartSkeleton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useLiveLapsData } from "@/hooks/useLiveLapsData";
 import {
@@ -235,9 +234,12 @@ export function Dashboard() {
                       </>
                     )}
                     {mobileTab === "grafieken" && (
-                      <ErrorBoundary>
-                        {loading ? <ChartSkeleton /> : <LapTimeLineChart laps={displayLaps} />}
-                      </ErrorBoundary>
+                      <ChartTabs
+                        laps={displayLaps}
+                        allLapsForSeasons={filterLaps(allLaps, "ALLEMAAL")}
+                        isLoading={loading}
+                        chartsOnly
+                      />
                     )}
                     {mobileTab === "records" && (
                       <ErrorBoundary>

@@ -1,3 +1,4 @@
+import { getISOWeek, getISOWeekYear } from "date-fns";
 import type { SchaatsLap } from "./data";
 
 const WEEKDAYS = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
@@ -60,6 +61,23 @@ export function getWeekdayData(laps: SchaatsLap[]) {
       avgTime: laps > 0 ? Math.round((totalTime / laps) * 100) / 100 : 0,
     };
   });
+}
+
+/** Beste lap tijd per week voor progressiegrafiek (ISO week) */
+export function getProgressData(laps: SchaatsLap[]) {
+  const byWeek = new Map<string, number>();
+  for (const lap of laps) {
+    if (!lap.datum) continue;
+    const d = new Date(lap.datum + "T12:00:00");
+    const key = `${getISOWeekYear(d)}-W${String(getISOWeek(d)).padStart(2, "0")}`;
+    const current = byWeek.get(key);
+    if (current === undefined || lap.lap_time < current) {
+      byWeek.set(key, lap.lap_time);
+    }
+  }
+  return Array.from(byWeek.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([week, bestTime]) => ({ week, bestTime }));
 }
 
 export function getVenueComparisonData(laps: SchaatsLap[]) {
