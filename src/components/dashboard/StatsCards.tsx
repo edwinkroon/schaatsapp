@@ -12,12 +12,12 @@ interface StatsCardsProps {
 }
 
 const cards = [
-  { key: "laps", title: "Ronden", value: (v: number) => v.toLocaleString(), suffix: "" },
-  { key: "best", title: "Beste ronde", value: (v: number) => formatLapTimeSeconds(v), suffix: " s" },
-  { key: "bestSeason", title: "Beste dit seizoen", value: (v: number) => formatLapTimeSeconds(v), suffix: " s" },
-  { key: "speed", title: "Gem. snelheid", value: (v: number) => v.toFixed(1), suffix: " km/h" },
-  { key: "maxSpeed", title: "Hoogste snelheid", value: (v: number) => v.toFixed(1), suffix: " km/h" },
-  { key: "distance", title: "Afstand", value: (v: number) => v.toFixed(1), suffix: " km" },
+  { key: "laps", title: "Ronden", value: (v: number) => v.toLocaleString() },
+  { key: "best", title: "Beste ronde (s)", value: (v: number) => formatLapTimeSeconds(v) },
+  { key: "bestSeason", title: "Beste dit seizoen (s)", value: (v: number) => formatLapTimeSeconds(v) },
+  { key: "speed", title: "Gem. snelheid (km/h)", value: (v: number) => v.toFixed(1) },
+  { key: "maxSpeed", title: "Hoogste snelheid (km/h)", value: (v: number) => v.toFixed(1) },
+  { key: "distance", title: "Afstand (km)", value: (v: number) => v.toFixed(1) },
 ] as const;
 
 export function StatsCards({
@@ -45,7 +45,7 @@ export function StatsCards({
         className
       )}
     >
-      {cards.map(({ key, title, value, suffix }) => (
+      {cards.map(({ key, title, value }) => (
         <Card
           key={key}
           className={cn(
@@ -65,7 +65,7 @@ export function StatsCards({
                 ? "—"
                 : key === "bestSeason" && bestLapSeason === null
                   ? "—"
-                  : `${value(values[key])}${suffix}`}
+                  : value(values[key])}
             </p>
           </CardContent>
         </Card>

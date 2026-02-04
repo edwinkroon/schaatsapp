@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { Calendar } from "lucide-react";
 import {
   Sidebar as SidebarPrimitive,
@@ -40,6 +41,8 @@ export function Sidebar({
   loading,
   hasData,
 }: SidebarProps) {
+  const [datePickerOpen, setDatePickerOpen] = useState(false);
+
   return (
     <SidebarPrimitive
       side="left"
@@ -77,7 +80,7 @@ export function Sidebar({
         <SidebarGroup>
           <SidebarGroupLabel>Dag</SidebarGroupLabel>
           <SidebarGroupContent>
-            <Popover>
+            <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
               <PopoverTrigger asChild>
                 <Button
                   variant="outline"
@@ -116,6 +119,7 @@ export function Sidebar({
                       const dateStr = dateToLocalDateString(date);
                       if (availableDays.includes(dateStr)) {
                         onDateChange(dateStr);
+                        setDatePickerOpen(false);
                       }
                     }
                   }}

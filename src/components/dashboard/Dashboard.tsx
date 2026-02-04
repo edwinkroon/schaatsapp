@@ -2,6 +2,7 @@ import { useState, useMemo, useEffect } from "react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
 import { ChartTabs } from "./ChartTabs";
+import { DateSelector } from "./DateSelector";
 import { LapTimesList } from "./charts/LapTimesList";
 import { StatsCards } from "./StatsCards";
 import { useLiveLapsData } from "@/hooks/useLiveLapsData";
@@ -200,6 +201,16 @@ export function Dashboard() {
               )}
               {filteredLaps.length > 0 && (
                 <>
+                  <div className="md:hidden space-y-1.5">
+                    <label className="text-muted-foreground text-xs font-medium">Dag</label>
+                    <DateSelector
+                      selectedDate={selectedDate}
+                      availableDays={availableDays}
+                      lapsPerDate={lapsPerDate}
+                      onDateChange={setSelectedDate}
+                      hasData={filteredLaps.length > 0}
+                    />
+                  </div>
                   <StatsCards
                     totalLaps={stats.totalLaps}
                     bestLap={stats.bestLap?.lap_time ?? null}
