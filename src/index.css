@@ -5,7 +5,7 @@
 
 /* Design tokens - Schaatsapp design system */
 :root {
-  --font-sans: "Plus Jakarta Sans", system-ui, -apple-system, sans-serif;
+  --font-sans: "Open Sans", system-ui, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, monospace;
   --spacing-xs: 0.25rem;
   --spacing-sm: 0.5rem;

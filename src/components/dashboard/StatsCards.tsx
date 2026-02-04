@@ -39,37 +39,61 @@ export function StatsCards({
   };
 
   return (
-    <div
-      className={cn(
-        "grid grid-cols-2 gap-2 sm:gap-2.5 md:gap-3 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6",
-        className
-      )}
-    >
-      {cards.map(({ key, title, value }) => (
-        <Card
-          key={key}
-          className={cn(
-            "overflow-hidden border-0 shadow-sm transition-all duration-200 min-w-0",
-            "hover:shadow-md hover:-translate-y-0.5",
-            "dark:shadow-none dark:bg-card/80"
-          )}
-        >
-          <CardHeader className="space-y-0 pb-1.5">
-            <CardTitle className="text-muted-foreground text-xs font-medium sm:text-sm">
-              {title}
-            </CardTitle>
-          </CardHeader>
-          <CardContent className="pb-1.5 pt-0 sm:pb-4 sm:pt-0">
-            <p className="text-base font-bold tracking-tight break-words tabular-nums text-left sm:text-lg md:text-xl">
-              {key === "best" && bestLap === null
-                ? "—"
-                : key === "bestSeason" && bestLapSeason === null
+    <div className={className}>
+      {/* Mobile: single card with rows and dividers */}
+      <Card className="sm:hidden">
+        <CardContent className="p-0">
+          {cards.map(({ key, title, value }, i) => (
+            <div
+              key={key}
+              className={cn(
+                "flex items-center justify-between px-4 py-3",
+                i > 0 && "border-t border-border/30"
+              )}
+            >
+              <span className="text-muted-foreground text-sm font-medium">
+                {title}
+              </span>
+              <span className="font-bold tabular-nums">
+                {key === "best" && bestLap === null
                   ? "—"
-                  : value(values[key])}
-            </p>
-          </CardContent>
-        </Card>
-      ))}
+                  : key === "bestSeason" && bestLapSeason === null
+                    ? "—"
+                    : value(values[key])}
+              </span>
+            </div>
+          ))}
+        </CardContent>
+      </Card>
+
+      {/* Desktop: grid of individual cards */}
+      <div className="hidden sm:grid grid-cols-2 gap-2.5 md:gap-3 md:grid-cols-3 lg:grid-cols-6 items-stretch">
+        {cards.map(({ key, title, value }) => (
+          <Card
+            key={key}
+            className={cn(
+              "overflow-hidden transition-all duration-200 min-w-0 h-full flex flex-col py-2 sm:py-3 md:py-3",
+              "hover:-translate-y-0.5 hover:shadow-lg",
+              "card-hover"
+            )}
+          >
+            <CardHeader className="space-y-0 pb-1.5 shrink-0">
+              <CardTitle className="text-muted-foreground text-sm font-medium">
+                {title}
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="pb-1 pt-0 sm:pb-3 sm:pt-0 flex-1 flex items-end min-h-0">
+              <p className="text-base font-bold tracking-tight break-words tabular-nums text-left sm:text-lg md:text-xl w-full">
+                {key === "best" && bestLap === null
+                  ? "—"
+                  : key === "bestSeason" && bestLapSeason === null
+                    ? "—"
+                    : value(values[key])}
+              </p>
+            </CardContent>
+          </Card>
+        ))}
+      </div>
     </div>
   );
 }

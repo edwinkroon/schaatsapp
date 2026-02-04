@@ -50,8 +50,8 @@ export function Sidebar({
       collapsible="offcanvas"
       className="border-r border-sidebar-border"
     >
-      <SidebarHeader className="border-b border-sidebar-border bg-sidebar/95 pt-4">
-        <div className="flex items-center gap-3 px-2 pb-4">
+      <SidebarHeader className="border-b border-sidebar-border bg-sidebar/95 pt-2">
+        <div className="flex h-[31px] items-center gap-3">
           <div className="flex size-10 items-center justify-center overflow-hidden rounded-xl">
             <img
               src="/ijsclub%20icoon.svg"
