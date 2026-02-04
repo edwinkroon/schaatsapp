@@ -3,8 +3,6 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LapTimeLineChart } from "./charts/LapTimeLineChart";
 import { Top10Table } from "./charts/Top10Table";
 import { SeasonHeatmap } from "./charts/SeasonHeatmap";
-import { WeekdayBarChart } from "./charts/WeekdayBarChart";
-import { VenueComparisonChart } from "./charts/VenueComparisonChart";
 import { ChartSkeleton, TableSkeleton, HeatmapSkeleton } from "@/components/ChartSkeleton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import type { SchaatsLap } from "@/lib/data";
@@ -52,20 +50,6 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, className }
         >
           Seizoenen
         </TabsTrigger>
-        <TabsTrigger
-          value="weekdagen"
-          className="rounded-md px-3 py-2.5 text-xs sm:rounded-lg sm:px-4 sm:py-2 sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm min-h-[44px] sm:min-h-0 shrink-0 touch-manipulation"
-          role="tab"
-        >
-          Weekdagen
-        </TabsTrigger>
-        <TabsTrigger
-          value="ijsbanen"
-          className="rounded-md px-3 py-2.5 text-xs sm:rounded-lg sm:px-4 sm:py-2 sm:text-sm data-[state=active]:bg-background data-[state=active]:shadow-sm min-h-[44px] sm:min-h-0 shrink-0 touch-manipulation"
-          role="tab"
-        >
-          IJsbanen
-        </TabsTrigger>
       </TabsList>
 
       <TabsContent value="grafieken" className="mt-3" role="tabpanel">
@@ -83,18 +67,6 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, className }
       <TabsContent value="seizoenen" className="mt-3" role="tabpanel">
         <ErrorBoundary>
           {isLoading ? <HeatmapSkeleton /> : <SeasonHeatmap laps={allLapsForSeasons} />}
-        </ErrorBoundary>
-      </TabsContent>
-
-      <TabsContent value="weekdagen" className="mt-3" role="tabpanel">
-        <ErrorBoundary>
-          {isLoading ? <ChartSkeleton /> : <WeekdayBarChart laps={laps} />}
-        </ErrorBoundary>
-      </TabsContent>
-
-      <TabsContent value="ijsbanen" className="mt-3" role="tabpanel">
-        <ErrorBoundary>
-          {isLoading ? <ChartSkeleton /> : <VenueComparisonChart laps={laps} />}
         </ErrorBoundary>
       </TabsContent>
     </Tabs>

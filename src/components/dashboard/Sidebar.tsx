@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar } from "lucide-react";
+import { Calendar, RefreshCw } from "lucide-react";
 import {
   Sidebar as SidebarPrimitive,
   SidebarContent,
@@ -29,6 +29,7 @@ interface SidebarProps {
   onDateChange: (date: string) => void;
   loading: boolean;
   hasData: boolean;
+  onRefresh?: () => void;
 }
 
 export function Sidebar({
@@ -40,6 +41,7 @@ export function Sidebar({
   onDateChange,
   loading,
   hasData,
+  onRefresh,
 }: SidebarProps) {
   const [datePickerOpen, setDatePickerOpen] = useState(false);
 
@@ -67,13 +69,30 @@ export function Sidebar({
         <SidebarGroup>
           <SidebarGroupLabel>Transponder</SidebarGroupLabel>
           <SidebarGroupContent>
-            <SidebarInput
-              placeholder="FZ-62579"
-              value={transponder}
-              onChange={(e) => onTransponderChange(e.target.value)}
-              className="transition-colors hover:bg-accent/50 dark:hover:bg-accent/20"
-              aria-label="Transponder-ID"
-            />
+            <div className="flex gap-2">
+              <SidebarInput
+                placeholder="FZ-62579"
+                value={transponder}
+                onChange={(e) => onTransponderChange(e.target.value)}
+                className="transition-colors hover:bg-accent/50 dark:hover:bg-accent/20"
+                aria-label="Transponder-ID"
+              />
+              {onRefresh && (
+                <Button
+                  variant="outline"
+                  size="icon"
+                  onClick={onRefresh}
+                  disabled={loading}
+                  aria-label="Data vernieuwen"
+                  className="shrink-0"
+                >
+                  <RefreshCw
+                    className={cn("size-4", loading && "animate-spin")}
+                    aria-hidden
+                  />
+                </Button>
+              )}
+            </div>
           </SidebarGroupContent>
         </SidebarGroup>
 

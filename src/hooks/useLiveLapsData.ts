@@ -7,6 +7,36 @@ export interface LapData {
   date: string;
 }
 
+const CACHE_TTL_MS = 5 * 60 * 1000; // 5 minuten
+
+interface CacheEntry {
+  data: LapData[];
+  timestamp: number;
+}
+
+const dataCache = new Map<string, CacheEntry>();
+
+function getCacheKey(transponder: string, filter: string): string {
+  return `${transponder}|${filter}`;
+}
+
+function getCachedData(transponder: string, filter: string, ttlMs: number): LapData[] | null {
+  if (ttlMs <= 0) return null;
+  const key = getCacheKey(transponder, filter);
+  const entry = dataCache.get(key);
+  if (!entry) return null;
+  if (Date.now() - entry.timestamp > ttlMs) {
+    dataCache.delete(key);
+    return null;
+  }
+  return entry.data;
+}
+
+function setCachedData(transponder: string, filter: string, data: LapData[]): void {
+  const key = getCacheKey(transponder, filter);
+  dataCache.set(key, { data, timestamp: Date.now() });
+}
+
 export interface UseLiveLapsDataParams {
   transponder?: string;
   filter?: "ALLEMAAL" | "BESTE" | "SLECHTSTE";
@@ -14,6 +44,8 @@ export interface UseLiveLapsDataParams {
   endpoint?: "getData2" | "LapsData" | "LapsGrafieken";
   /** Override URL voor tests */
   baseUrl?: string;
+  /** Cache TTL in ms. Standaard 5 min. 0 = cache uitschakelen */
+  cacheTtlMs?: number;
 }
 
 /** Mock response voor tests - vervang met echte response voor integratietests */
@@ -183,7 +215,8 @@ interface UseLiveLapsDataReturn {
   data: LapData[];
   loading: boolean;
   error: string | null;
-  refetch: () => Promise<void>;
+  /** @param force - true = cache negeren en opnieuw ophalen */
+  refetch: (force?: boolean) => Promise<void>;
 }
 
 export function useLiveLapsData(
@@ -193,46 +226,64 @@ export function useLiveLapsData(
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const url = getEndpointUrl(params);
+  const cacheTtlMs = params.cacheTtlMs ?? CACHE_TTL_MS;
+  const transponder = params.transponder ?? "FZ-62579";
+  const filter = params.filter ?? "ALLEMAAL";
 
-  const refetch = useCallback(async () => {
-    setLoading(true);
-    setError(null);
-    try {
-      const useGetData2 = params.endpoint === "getData2" || !params.endpoint;
-      const response = await fetch(url, {
-        method: useGetData2 ? "GET" : "POST",
-        headers: {
-          Accept: "text/plain, */*",
-          "User-Agent":
-            "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
-          ...(useGetData2
-            ? { Referer: "https://vinksite.com/Laps.htm" }
-            : {
-                "Content-Type": "application/x-www-form-urlencoded",
-                "X-Requested-With": "XMLHttpRequest",
-                Referer: "https://www.vinksite.com/",
-                Origin: "https://www.vinksite.com",
-              }),
-        },
-        ...(useGetData2 ? {} : { body: buildFormBody(params) }),
-      });
-
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+  const refetch = useCallback(
+    async (force = false) => {
+      if (!force && cacheTtlMs > 0) {
+        const cached = getCachedData(transponder, filter, cacheTtlMs);
+        if (cached !== null) {
+          setData(cached);
+          setError(null);
+          return;
+        }
       }
 
-      const text = await response.text();
-      const laps = parseVinkData(text);
-      setData(laps);
-    } catch (err) {
-      const message =
-        err instanceof Error ? err.message : "Onbekende fout bij laden";
-      setError(message);
-      setData([]);
-    } finally {
-      setLoading(false);
-    }
-  }, [url, params.transponder, params.filter]);
+      setLoading(true);
+      setError(null);
+      try {
+        const useGetData2 = params.endpoint === "getData2" || !params.endpoint;
+        const response = await fetch(url, {
+          method: useGetData2 ? "GET" : "POST",
+          headers: {
+            Accept: "text/plain, */*",
+            "User-Agent":
+              "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+            ...(useGetData2
+              ? { Referer: "https://vinksite.com/Laps.htm" }
+              : {
+                  "Content-Type": "application/x-www-form-urlencoded",
+                  "X-Requested-With": "XMLHttpRequest",
+                  Referer: "https://www.vinksite.com/",
+                  Origin: "https://www.vinksite.com",
+                }),
+          },
+          ...(useGetData2 ? {} : { body: buildFormBody(params) }),
+        });
+
+        if (!response.ok) {
+          throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+
+        const text = await response.text();
+        const laps = parseVinkData(text);
+        setData(laps);
+        if (cacheTtlMs > 0) {
+          setCachedData(transponder, filter, laps);
+        }
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "Onbekende fout bij laden";
+        setError(message);
+        setData([]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [url, transponder, filter, cacheTtlMs, params]
+  );
 
   return { data, loading, error, refetch };
 }

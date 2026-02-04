@@ -1,10 +1,16 @@
 import { useState, useMemo, useEffect } from "react";
 import { Sidebar } from "./Sidebar";
 import { Header } from "./Header";
+import { BottomNav, type NavTab } from "./BottomNav";
 import { ChartTabs } from "./ChartTabs";
 import { DateSelector } from "./DateSelector";
 import { LapTimesList } from "./charts/LapTimesList";
 import { StatsCards } from "./StatsCards";
+import { LapTimeLineChart } from "./charts/LapTimeLineChart";
+import { Top10Table } from "./charts/Top10Table";
+import { SeasonHeatmap } from "./charts/SeasonHeatmap";
+import { ChartSkeleton, TableSkeleton, HeatmapSkeleton } from "@/components/ChartSkeleton";
+import { ErrorBoundary } from "@/components/ErrorBoundary";
 import { useLiveLapsData } from "@/hooks/useLiveLapsData";
 import {
   filterLaps,
@@ -37,6 +43,7 @@ export function Dashboard() {
   });
   const [debouncedTransponder, setDebouncedTransponder] = useState(transponder);
   const [selectedDate, setSelectedDate] = useState<string>("");
+  const [mobileTab, setMobileTab] = useState<NavTab>("home");
 
   const { data: liveData, loading, error, refetch } = useLiveLapsData({
     transponder: debouncedTransponder,
@@ -157,6 +164,7 @@ export function Dashboard() {
         onDateChange={setSelectedDate}
         loading={loading}
         hasData={filteredLaps.length > 0}
+        onRefresh={() => refetch(true)}
       />
       <SidebarInset>
         <Header
@@ -171,7 +179,7 @@ export function Dashboard() {
         />
         <main
           id="main-content"
-          className="bg-dashboard flex-1 overflow-auto px-3 py-3 sm:px-4 sm:py-4 md:px-6 md:py-5 min-w-0"
+          className="bg-dashboard flex-1 overflow-auto px-3 py-3 sm:px-4 sm:py-4 md:px-6 md:py-5 min-w-0 pb-20 md:pb-5"
           role="main"
           aria-label="Dashboard inhoud"
         >
@@ -201,36 +209,72 @@ export function Dashboard() {
               )}
               {filteredLaps.length > 0 && (
                 <>
-                  <div className="md:hidden space-y-1.5">
-                    <label className="text-muted-foreground text-xs font-medium">Dag</label>
-                    <DateSelector
-                      selectedDate={selectedDate}
-                      availableDays={availableDays}
-                      lapsPerDate={lapsPerDate}
-                      onDateChange={setSelectedDate}
-                      hasData={filteredLaps.length > 0}
+                  {/* Mobile: tabbed app layout */}
+                  <div className="md:hidden space-y-4">
+                    {mobileTab === "home" && (
+                      <>
+                        <div className="space-y-1.5">
+                          <label className="text-muted-foreground text-xs font-medium">Dag</label>
+                          <DateSelector
+                            selectedDate={selectedDate}
+                            availableDays={availableDays}
+                            lapsPerDate={lapsPerDate}
+                            onDateChange={setSelectedDate}
+                            hasData={filteredLaps.length > 0}
+                          />
+                        </div>
+                        <StatsCards
+                          totalLaps={stats.totalLaps}
+                          bestLap={stats.bestLap?.lap_time ?? null}
+                          bestLapSeason={stats.bestLapSeason}
+                          avgSpeed={stats.avgSnelheid}
+                          maxSpeed={stats.maxSnelheid}
+                          totalDistance={stats.totalDistance}
+                        />
+                        <LapTimesList laps={displayLaps} />
+                      </>
+                    )}
+                    {mobileTab === "grafieken" && (
+                      <ErrorBoundary>
+                        {loading ? <ChartSkeleton /> : <LapTimeLineChart laps={displayLaps} />}
+                      </ErrorBoundary>
+                    )}
+                    {mobileTab === "records" && (
+                      <ErrorBoundary>
+                        {loading ? <TableSkeleton /> : <Top10Table laps={filterLaps(allLaps, "ALLEMAAL")} />}
+                      </ErrorBoundary>
+                    )}
+                    {mobileTab === "seizoenen" && (
+                      <ErrorBoundary>
+                        {loading ? <HeatmapSkeleton /> : <SeasonHeatmap laps={filterLaps(allLaps, "ALLEMAAL")} />}
+                      </ErrorBoundary>
+                    )}
+                  </div>
+
+                  {/* Desktop: original layout */}
+                  <div className="hidden md:block space-y-4">
+                    <StatsCards
+                      totalLaps={stats.totalLaps}
+                      bestLap={stats.bestLap?.lap_time ?? null}
+                      bestLapSeason={stats.bestLapSeason}
+                      avgSpeed={stats.avgSnelheid}
+                      maxSpeed={stats.maxSnelheid}
+                      totalDistance={stats.totalDistance}
+                    />
+                    <LapTimesList laps={displayLaps} />
+                    <ChartTabs
+                      laps={displayLaps}
+                      allLapsForSeasons={filterLaps(allLaps, "ALLEMAAL")}
+                      isLoading={loading}
                     />
                   </div>
-                  <StatsCards
-                    totalLaps={stats.totalLaps}
-                    bestLap={stats.bestLap?.lap_time ?? null}
-                    bestLapSeason={stats.bestLapSeason}
-                    avgSpeed={stats.avgSnelheid}
-                    maxSpeed={stats.maxSnelheid}
-                    totalDistance={stats.totalDistance}
-                  />
-                  <LapTimesList laps={displayLaps} />
-                  <ChartTabs
-                    laps={displayLaps}
-                    allLapsForSeasons={filterLaps(allLaps, "ALLEMAAL")}
-                    isLoading={loading}
-                  />
                 </>
               )}
             </div>
           )}
         </main>
       </SidebarInset>
+      <BottomNav activeTab={mobileTab} onTabChange={setMobileTab} />
     </SidebarProvider>
   );
 }

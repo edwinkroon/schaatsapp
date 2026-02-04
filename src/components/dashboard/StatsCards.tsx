@@ -40,31 +40,26 @@ export function StatsCards({
 
   return (
     <div className={className}>
-      {/* Mobile: single card with rows and dividers */}
-      <Card className="sm:hidden">
-        <CardContent className="p-0">
-          {cards.map(({ key, title, value }, i) => (
-            <div
-              key={key}
-              className={cn(
-                "flex items-center justify-between px-4 py-3",
-                i > 0 && "border-t border-border/30"
-              )}
-            >
-              <span className="text-muted-foreground text-sm font-medium">
-                {title}
-              </span>
-              <span className="font-bold tabular-nums">
-                {key === "best" && bestLap === null
+      {/* Mobile: 2x3 grid van compacte tegels (app-stijl) */}
+      <div className="sm:hidden grid grid-cols-2 gap-2">
+        {cards.map(({ key, title, value }) => (
+          <Card
+            key={key}
+            className="overflow-hidden p-3 min-h-0 transition-all active:scale-[0.98]"
+          >
+            <p className="text-muted-foreground text-[11px] font-medium truncate mb-0.5">
+              {title}
+            </p>
+            <p className="font-bold text-base tabular-nums truncate">
+              {key === "best" && bestLap === null
+                ? "—"
+                : key === "bestSeason" && bestLapSeason === null
                   ? "—"
-                  : key === "bestSeason" && bestLapSeason === null
-                    ? "—"
-                    : value(values[key])}
-              </span>
-            </div>
-          ))}
-        </CardContent>
-      </Card>
+                  : value(values[key])}
+            </p>
+          </Card>
+        ))}
+      </div>
 
       {/* Desktop: grid of individual cards */}
       <div className="hidden sm:grid grid-cols-2 gap-2.5 md:gap-3 md:grid-cols-3 lg:grid-cols-6 items-stretch">
