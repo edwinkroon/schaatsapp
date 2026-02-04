@@ -163,42 +163,70 @@
   -webkit-backdrop-filter: blur(16px) saturate(1.1);
 }
 
-/* iOS glass bottom nav */
+/* iOS glass bottom nav – frosted glass, transparant */
 .ios-glass-nav {
   position: fixed;
   bottom: 0;
   left: 0;
   right: 0;
-  z-index: 1000;
+  z-index: 9999;
+  display: flex;
+  flex-direction: column;
   min-height: 64px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  backdrop-filter: blur(20px) saturate(200%) brightness(1.05);
-  -webkit-backdrop-filter: blur(20px) saturate(200%) brightness(1.05);
-  background: rgba(255, 255, 255, 0.2);
-  border-top: 1px solid rgba(255, 255, 255, 0.4);
+  /* Frosted glass: blur + saturate voor iOS-look */
+  backdrop-filter: blur(16px) saturate(180%);
+  -webkit-backdrop-filter: blur(16px) saturate(180%);
+  /* Transparant: content erachter zichtbaar */
+  background: linear-gradient(
+    to top,
+    rgba(255, 255, 255, 0.35),
+    rgba(255, 255, 255, 0.2)
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.5);
   box-shadow:
-    0 -1px 0 rgba(255, 255, 255, 0.6) inset,
-    0 -8px 32px rgba(0, 0, 0, 0.12);
+    inset 0 1px 0 rgba(255, 255, 255, 0.6),
+    0 -4px 24px rgba(0, 0, 0, 0.08);
   will-change: transform;
-  contain: layout style paint;
 }
 
 @media (prefers-color-scheme: dark) {
   .ios-glass-nav {
-    background: rgba(28, 28, 32, 0.85);
-    border-top: 1px solid rgba(255, 255, 255, 0.15);
+    background: linear-gradient(
+      to top,
+      rgba(40, 40, 44, 0.7),
+      rgba(28, 28, 32, 0.5)
+    );
+    border-top: 1px solid rgba(255, 255, 255, 0.12);
     box-shadow:
-      0 -1px 0 rgba(255, 255, 255, 0.2) inset,
-      0 -8px 32px rgba(0, 0, 0, 0.25);
+      inset 0 1px 0 rgba(255, 255, 255, 0.1),
+      0 -4px 24px rgba(0, 0, 0, 0.2);
   }
 }
 
 .dark .ios-glass-nav {
-  background: rgba(28, 28, 32, 0.85);
-  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(
+    to top,
+    rgba(40, 40, 44, 0.7),
+    rgba(28, 28, 32, 0.5)
+  );
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
-    0 -1px 0 rgba(255, 255, 255, 0.2) inset,
-    0 -8px 32px rgba(0, 0, 0, 0.25);
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 -4px 24px rgba(0, 0, 0, 0.2);
+}
+
+/* Alleen zichtbaar op mobiel viewport (< 768px) */
+@media (min-width: 768px) {
+  .ios-glass-nav {
+    display: none !important;
+  }
+}
+
+@media (max-width: 767px) {
+  .ios-glass-nav {
+    display: flex !important;
+  }
 }
 
 /* Card hover lift */

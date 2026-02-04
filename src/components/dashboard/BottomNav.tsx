@@ -22,7 +22,7 @@ export function BottomNav({ activeTab, onTabChange, className }: BottomNavProps)
     <nav
       role="tablist"
       aria-label="Hoofdnavigatie"
-      className={cn("md:hidden ios-glass-nav", className)}
+      className={cn("ios-glass-nav flex flex-col md:hidden", className)}
     >
       <div className="relative z-10 flex items-center justify-around h-16">
         {tabs.map(({ id, label, icon: Icon }) => {
