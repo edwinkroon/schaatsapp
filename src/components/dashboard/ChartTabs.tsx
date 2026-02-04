@@ -26,7 +26,7 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, className }
       aria-label="Grafiek tabs"
     >
       <TabsList
-        className="flex h-auto flex-wrap gap-1 rounded-lg sm:gap-1.5 sm:rounded-xl bg-muted/60 p-1 sm:p-1.5 w-full sm:w-auto justify-start overflow-x-auto sm:overflow-visible"
+        className="flex h-auto flex-wrap gap-1 rounded-lg bg-muted/50 p-1 sm:p-1.5 w-full sm:w-auto justify-start overflow-x-auto sm:overflow-visible"
         role="tablist"
         aria-label="Selecteer grafiek"
       >
@@ -68,31 +68,31 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, className }
         </TabsTrigger>
       </TabsList>
 
-      <TabsContent value="grafieken" className="mt-4" role="tabpanel">
+      <TabsContent value="grafieken" className="mt-3" role="tabpanel">
         <ErrorBoundary>
           {isLoading ? <ChartSkeleton /> : <LapTimeLineChart laps={laps} />}
         </ErrorBoundary>
       </TabsContent>
 
-      <TabsContent value="records" className="mt-4" role="tabpanel">
+      <TabsContent value="records" className="mt-3" role="tabpanel">
         <ErrorBoundary>
           {isLoading ? <TableSkeleton /> : <Top10Table laps={allLapsForSeasons} />}
         </ErrorBoundary>
       </TabsContent>
 
-      <TabsContent value="seizoenen" className="mt-4" role="tabpanel">
+      <TabsContent value="seizoenen" className="mt-3" role="tabpanel">
         <ErrorBoundary>
           {isLoading ? <HeatmapSkeleton /> : <SeasonHeatmap laps={allLapsForSeasons} />}
         </ErrorBoundary>
       </TabsContent>
 
-      <TabsContent value="weekdagen" className="mt-4" role="tabpanel">
+      <TabsContent value="weekdagen" className="mt-3" role="tabpanel">
         <ErrorBoundary>
           {isLoading ? <ChartSkeleton /> : <WeekdayBarChart laps={laps} />}
         </ErrorBoundary>
       </TabsContent>
 
-      <TabsContent value="ijsbanen" className="mt-4" role="tabpanel">
+      <TabsContent value="ijsbanen" className="mt-3" role="tabpanel">
         <ErrorBoundary>
           {isLoading ? <ChartSkeleton /> : <VenueComparisonChart laps={laps} />}
         </ErrorBoundary>

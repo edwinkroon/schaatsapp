@@ -170,7 +170,7 @@ export function Dashboard() {
         />
         <main
           id="main-content"
-          className="bg-dashboard flex-1 overflow-auto px-3 py-4 sm:px-4 sm:py-5 md:px-6 md:py-6 min-w-0"
+          className="bg-dashboard flex-1 overflow-auto px-3 py-3 sm:px-4 sm:py-4 md:px-6 md:py-5 min-w-0"
           role="main"
           aria-label="Dashboard inhoud"
         >
@@ -180,10 +180,10 @@ export function Dashboard() {
             </div>
           )}
           {displayLaps.length === 0 && filteredLaps.length === 0 && !loading ? (
-            <div className="space-y-4 sm:space-y-6 max-w-full min-w-0">
-              <Card className="border-primary/20 shadow-lg">
-                <CardHeader className="p-4 sm:p-6">
-                  <CardTitle className="text-lg sm:text-xl">Welkom bij Schaatsapp</CardTitle>
+            <div className="space-y-3 sm:space-y-4 max-w-full min-w-0">
+              <Card className="border-primary/20 shadow-sm">
+                <CardHeader className="p-4 sm:p-5">
+                  <CardTitle className="text-base sm:text-lg">Welkom bij Schaatsapp</CardTitle>
                   <p className="text-muted-foreground text-sm sm:text-base">
                     Open de sidebar (☰) en vul je transponder-ID in. De data
                     wordt automatisch geladen.
@@ -192,7 +192,7 @@ export function Dashboard() {
               </Card>
             </div>
           ) : (
-            <div className="space-y-4 sm:space-y-6 max-w-full min-w-0">
+            <div className="space-y-3 sm:space-y-4 max-w-full min-w-0">
               {loading && (
                 <p className="text-muted-foreground" role="status">
                   Live data laden...

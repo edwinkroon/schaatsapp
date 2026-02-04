@@ -50,7 +50,7 @@ function WeekdayBarChartInner({ laps }: WeekdayBarChartProps) {
           Aantal ronden en gemiddelde lap tijd per weekdag
         </p>
       </CardHeader>
-      <CardContent className="p-3 sm:p-4 md:p-6">
+      <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="h-[240px] sm:h-[280px] md:h-[300px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>

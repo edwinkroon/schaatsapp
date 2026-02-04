@@ -25,7 +25,7 @@ export function Header({
     <header
       role="banner"
       className={cn(
-        "header-glass flex h-14 shrink-0 items-center justify-between gap-2 border-b border-border bg-background/80 px-3 sm:px-4 md:px-6",
+        "header-glass flex h-12 shrink-0 items-center justify-between gap-2 border-b border-border/80 bg-background/95 px-3 sm:px-4 md:px-6",
         className
       )}
     >
@@ -34,14 +34,14 @@ export function Header({
       </div>
       <div className="flex items-center gap-4">
         {stats && stats.totalLaps > 0 && (
-          <div className="hidden items-center gap-6 md:flex" role="status" aria-live="polite">
-            <span className="text-muted-foreground rounded-full bg-muted/60 px-3 py-1 text-sm font-medium">
+          <div className="hidden items-center gap-3 md:flex" role="status" aria-live="polite">
+            <span className="text-muted-foreground rounded-full bg-muted/50 px-2.5 py-0.5 text-xs font-medium">
               {stats.totalLaps} Ronden
             </span>
-            <span className="text-muted-foreground rounded-full bg-muted/60 px-3 py-1 text-sm font-medium">
+            <span className="text-muted-foreground rounded-full bg-muted/50 px-2.5 py-0.5 text-xs font-medium">
               Ø {formatLapTimeSeconds(stats.avgLapTime)} s
             </span>
-            <span className="text-muted-foreground rounded-full bg-muted/60 px-3 py-1 text-sm font-medium">
+            <span className="text-muted-foreground rounded-full bg-muted/50 px-2.5 py-0.5 text-xs font-medium">
               Ø {stats.avgSnelheid} km/h
             </span>
           </div>

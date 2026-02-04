@@ -132,7 +132,7 @@ function SeasonHeatmapInner({ laps }: SeasonHeatmapProps) {
           </Select>
         )}
       </CardHeader>
-      <CardContent className="p-3 sm:p-4 md:p-6">
+      <CardContent className="p-3 sm:p-4 md:p-5">
         <TooltipProvider>
           <div className="flex flex-wrap gap-0.5 sm:gap-1">
             {cells.map((cell) => {

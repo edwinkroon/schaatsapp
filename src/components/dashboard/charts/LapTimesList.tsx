@@ -1,4 +1,4 @@
-import { memo } from "react";
+import { memo, useMemo } from "react";
 import {
   Table,
   TableBody,
@@ -16,6 +16,19 @@ interface LapTimesListProps {
 }
 
 function LapTimesListInner({ laps }: LapTimesListProps) {
+  const fastestIndex = useMemo(() => {
+    if (laps.length === 0) return -1;
+    let min = laps[0].lap_time;
+    let idx = 0;
+    laps.forEach((lap, i) => {
+      if (lap.lap_time < min) {
+        min = lap.lap_time;
+        idx = i;
+      }
+    });
+    return idx;
+  }, [laps]);
+
   if (laps.length === 0) return null;
 
   return (
@@ -26,26 +39,42 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
           Alle ronden van de geselecteerde dag
         </p>
       </CardHeader>
-      <CardContent className="p-3 sm:p-4 md:p-6">
+      <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="overflow-x-auto max-h-[280px] sm:max-h-[350px] md:max-h-[400px] overflow-y-auto -mx-2 sm:mx-0 px-2 sm:px-0">
           <Table className="text-xs sm:text-sm min-w-[320px] sm:min-w-0 table-fixed w-full">
             <TableHeader>
               <TableRow>
-                <TableHead className="w-1/4">Ronde</TableHead>
-                <TableHead className="w-1/4 text-right">Tijd</TableHead>
-                <TableHead className="w-1/4">Snelheid</TableHead>
-                <TableHead className="w-1/4">Baan</TableHead>
+                <TableHead className="w-1/5 text-right">Ronde</TableHead>
+                <TableHead className="w-1/5 text-right">Tijd</TableHead>
+                <TableHead className="w-1/5 text-right">Snelheid</TableHead>
+                <TableHead className="text-right">Tijdsverschil</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {laps.map((lap, i) => (
-                <TableRow key={`${lap.datum}-${lap.lap_num}-${i}`}>
-                  <TableCell className="font-medium">{i + 1}</TableCell>
-                  <TableCell className="text-right tabular-nums">{formatLapTimeSeconds(lap.lap_time)} s</TableCell>
-                  <TableCell>{lap.snelheid.toFixed(1)} km/h</TableCell>
-                  <TableCell>{lap.baan || "—"}</TableCell>
-                </TableRow>
-              ))}
+              {laps.map((lap, i) => {
+                const prevLapTime = i > 0 ? laps[i - 1].lap_time : null;
+                const diff = prevLapTime !== null ? lap.lap_time - prevLapTime : null;
+                const arrow = diff !== null ? (diff > 0 ? "↑" : diff < 0 ? "↓" : "") : "";
+                const arrowClass = diff !== null ? (diff > 0 ? "text-green-600 dark:text-green-500" : diff < 0 ? "text-red-600 dark:text-red-500" : "") : "";
+                const diffContent = diff !== null ? (
+                  <span className="tabular-nums">
+                    {arrow && <span className={arrowClass}>{arrow} </span>}
+                    {Math.abs(diff).toFixed(2)} s
+                  </span>
+                ) : "—";
+                const isFastest = i === fastestIndex;
+                return (
+                  <TableRow
+                    key={`${lap.datum}-${lap.lap_num}-${i}`}
+                    className={isFastest ? "bg-violet-100 dark:bg-violet-950/50" : undefined}
+                  >
+                    <TableCell className="text-right font-medium tabular-nums">{i + 1}</TableCell>
+                    <TableCell className="text-right tabular-nums">{formatLapTimeSeconds(lap.lap_time)} s</TableCell>
+                    <TableCell className="text-right tabular-nums">{lap.snelheid.toFixed(1)} km/h</TableCell>
+                    <TableCell className="text-right">{diffContent}</TableCell>
+                  </TableRow>
+                );
+              })}
             </TableBody>
           </Table>
         </div>

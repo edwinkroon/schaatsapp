@@ -42,7 +42,7 @@
   --chart-3: oklch(0.6 0.2 260);
   --chart-4: oklch(0.7 0.15 150);
   --chart-5: oklch(0.65 0.18 300);
-  --radius: 0.75rem;
+  --radius: 0.5rem;
   --sidebar: oklch(0.99 0.005 240);
   --sidebar-foreground: oklch(0.18 0.02 250);
   --sidebar-primary: oklch(0.55 0.18 220);
@@ -143,26 +143,24 @@
 /* Subtle background gradient for main content */
 .bg-dashboard {
   background: linear-gradient(
-    135deg,
-    oklch(0.99 0.003 240) 0%,
-    oklch(0.97 0.008 220) 50%,
-    oklch(0.98 0.005 250) 100%
+    160deg,
+    oklch(0.985 0.002 240) 0%,
+    oklch(0.975 0.006 220) 100%
   );
 }
 
 .dark .bg-dashboard {
   background: linear-gradient(
-    135deg,
+    160deg,
     oklch(0.14 0.02 250) 0%,
-    oklch(0.15 0.025 240) 50%,
     oklch(0.13 0.02 260) 100%
   );
 }
 
 /* Glass header effect */
 .header-glass {
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(16px) saturate(1.1);
+  -webkit-backdrop-filter: blur(16px) saturate(1.1);
 }
 
 /* Card hover lift */

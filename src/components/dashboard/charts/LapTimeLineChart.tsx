@@ -66,7 +66,7 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
           Gebruik de slider onder de grafiek om in te zoomen. Sleep om het bereik te verplaatsen.
         </p>
       </CardHeader>
-      <CardContent className="p-3 sm:p-4 md:p-6">
+      <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="h-[220px] sm:h-[280px] md:h-[350px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={displayData} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
