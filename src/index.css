@@ -185,17 +185,18 @@
     0 1px 4px rgba(0, 0, 0, 0.3);
 }
 
-/* Apple Liquid Glass bottom nav – frosted, goede contrast */
+/* Apple Liquid Glass bottom nav – floating, frosted, ronde hoeken */
 .ios-glass-nav {
   position: fixed;
-  bottom: 0;
-  left: 0;
-  right: 0;
+  bottom: max(10px, env(safe-area-inset-bottom, 0px) + 10px);
+  left: 10px;
+  right: 10px;
   z-index: 9999;
   display: flex;
   flex-direction: column;
   min-height: 64px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
+  border-radius: 9999px;
   backdrop-filter: blur(24px) saturate(180%);
   -webkit-backdrop-filter: blur(24px) saturate(180%);
   /* Meer frosting voor leesbaarheid (Apple Liquid Glass) */
@@ -204,10 +205,10 @@
     rgba(255, 255, 255, 0.82),
     rgba(248, 250, 252, 0.75)
   );
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
+  border: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.9),
-    0 -4px 24px rgba(0, 0, 0, 0.06);
+    0 4px 24px rgba(0, 0, 0, 0.08);
   will-change: transform;
 }
 
@@ -217,10 +218,10 @@
     rgba(36, 36, 40, 0.9),
     rgba(26, 26, 30, 0.85)
   );
-  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
     inset 0 1px 0 rgba(255, 255, 255, 0.08),
-    0 -4px 24px rgba(0, 0, 0, 0.25);
+    0 4px 24px rgba(0, 0, 0, 0.3);
 }
 
 /* Alleen zichtbaar op mobiel viewport (< 768px) */
