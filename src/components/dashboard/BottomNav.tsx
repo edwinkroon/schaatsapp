@@ -38,8 +38,8 @@ export function BottomNav({ activeTab, onTabChange, className }: BottomNavProps)
                 "flex flex-col items-center justify-center gap-1 flex-1 min-w-0 h-full",
                 "touch-manipulation active:scale-95 transition-transform",
                 isActive
-                  ? "text-primary"
-                  : "text-muted-foreground hover:text-foreground"
+                  ? "text-primary font-semibold"
+                  : "text-foreground/65 hover:text-foreground"
               )}
             >
               <Icon

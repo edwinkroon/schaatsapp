@@ -25,7 +25,7 @@ export function Header({
     <header
       role="banner"
       className={cn(
-        "header-glass flex h-12 shrink-0 items-center justify-between gap-2 border-b border-border/80 bg-background/95 px-3 sm:px-4 md:px-6",
+        "header-glass flex h-12 shrink-0 items-center justify-between gap-2 px-3 sm:px-4 md:px-6",
         className
       )}
     >
@@ -35,25 +35,25 @@ export function Header({
       <div className="flex items-center gap-4">
         {stats && stats.totalLaps > 0 && (
           <div className="hidden items-center gap-3 md:flex" role="status" aria-live="polite">
-            <span className="text-muted-foreground rounded-full bg-muted/50 px-2.5 py-0.5 text-xs font-medium">
+            <span className="rounded-full bg-foreground/8 px-2.5 py-0.5 text-xs font-medium text-foreground">
               {stats.totalLaps} Ronden
             </span>
-            <span className="text-muted-foreground rounded-full bg-muted/50 px-2.5 py-0.5 text-xs font-medium">
+            <span className="rounded-full bg-foreground/8 px-2.5 py-0.5 text-xs font-medium text-foreground">
               Ø {formatLapTimeSeconds(stats.avgLapTime)} s
             </span>
-            <span className="text-muted-foreground rounded-full bg-muted/50 px-2.5 py-0.5 text-xs font-medium">
+            <span className="rounded-full bg-foreground/8 px-2.5 py-0.5 text-xs font-medium text-foreground">
               Ø {stats.avgSnelheid} km/h
             </span>
           </div>
         )}
         <div className="flex items-center gap-2">
-          <Sun className="text-muted-foreground size-4" aria-hidden />
+          <Sun className="size-4 text-foreground/70" aria-hidden />
           <Switch
             checked={darkMode}
             onCheckedChange={onToggleDarkMode}
             aria-label="Donkere modus aan of uit"
           />
-          <Moon className="text-muted-foreground size-4" aria-hidden />
+          <Moon className="size-4 text-foreground/70" aria-hidden />
         </div>
       </div>
     </header>

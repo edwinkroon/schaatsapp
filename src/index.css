@@ -157,13 +157,35 @@
   );
 }
 
-/* Glass header effect */
+/* Apple Liquid Glass header – frosted, goede contrast */
 .header-glass {
-  backdrop-filter: blur(16px) saturate(1.1);
-  -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  /* Meer frosting voor leesbaarheid (Apple iOS 26-stijl) */
+  background: linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.85),
+    rgba(248, 250, 252, 0.78)
+  );
+  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-/* iOS glass bottom nav – frosted glass, transparant */
+.dark .header-glass {
+  background: linear-gradient(
+    to bottom,
+    rgba(30, 30, 34, 0.92),
+    rgba(22, 22, 26, 0.88)
+  );
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.06),
+    0 1px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Apple Liquid Glass bottom nav – frosted, goede contrast */
 .ios-glass-nav {
   position: fixed;
   bottom: 0;
@@ -174,46 +196,31 @@
   flex-direction: column;
   min-height: 64px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
-  /* Frosted glass: blur + saturate voor iOS-look */
-  backdrop-filter: blur(16px) saturate(180%);
-  -webkit-backdrop-filter: blur(16px) saturate(180%);
-  /* Transparant: content erachter zichtbaar */
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  /* Meer frosting voor leesbaarheid (Apple Liquid Glass) */
   background: linear-gradient(
     to top,
-    rgba(255, 255, 255, 0.35),
-    rgba(255, 255, 255, 0.2)
+    rgba(255, 255, 255, 0.82),
+    rgba(248, 250, 252, 0.75)
   );
-  border-top: 1px solid rgba(255, 255, 255, 0.5);
+  border-top: 1px solid rgba(0, 0, 0, 0.08);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.6),
-    0 -4px 24px rgba(0, 0, 0, 0.08);
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 -4px 24px rgba(0, 0, 0, 0.06);
   will-change: transform;
-}
-
-@media (prefers-color-scheme: dark) {
-  .ios-glass-nav {
-    background: linear-gradient(
-      to top,
-      rgba(40, 40, 44, 0.7),
-      rgba(28, 28, 32, 0.5)
-    );
-    border-top: 1px solid rgba(255, 255, 255, 0.12);
-    box-shadow:
-      inset 0 1px 0 rgba(255, 255, 255, 0.1),
-      0 -4px 24px rgba(0, 0, 0, 0.2);
-  }
 }
 
 .dark .ios-glass-nav {
   background: linear-gradient(
     to top,
-    rgba(40, 40, 44, 0.7),
-    rgba(28, 28, 32, 0.5)
+    rgba(36, 36, 40, 0.9),
+    rgba(26, 26, 30, 0.85)
   );
   border-top: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow:
-    inset 0 1px 0 rgba(255, 255, 255, 0.1),
-    0 -4px 24px rgba(0, 0, 0, 0.2);
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 -4px 24px rgba(0, 0, 0, 0.25);
 }
 
 /* Alleen zichtbaar op mobiel viewport (< 768px) */
