@@ -48,14 +48,13 @@ function Top10TableInner({ laps }: Top10TableProps) {
       </CardHeader>
       <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="overflow-x-auto -mx-1 sm:mx-0">
-          <Table className="min-w-[400px] sm:min-w-0 text-sm">
+          <Table className="w-full min-w-0 text-sm table-fixed">
             <TableHeader>
               <TableRow>
-                <TableHead className="w-12 text-right">#</TableHead>
+                <TableHead className="w-10 text-right">#</TableHead>
                 <TableHead className="text-right">Datum</TableHead>
                 <TableHead className="text-right">Lap tijd (s)</TableHead>
                 <TableHead className="text-right">Snelheid (km/h)</TableHead>
-                <TableHead className="text-right">Baan</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -65,7 +64,6 @@ function Top10TableInner({ laps }: Top10TableProps) {
                   <TableCell className="text-right tabular-nums">{formatDateDisplay(row.datum)}</TableCell>
                   <TableCell className="text-right tabular-nums">{formatLapTimeSeconds(row.lap_time)}</TableCell>
                   <TableCell className="text-right tabular-nums">{row.snelheid}</TableCell>
-                  <TableCell className="text-right">{row.baan}</TableCell>
                 </TableRow>
               ))}
             </TableBody>
