@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="96" fill="#0a1628"/>
+  <!-- Noorse schaats - lage schoen, lang ijzer dat ver voorbij de hiel doorloopt -->
+  <g fill="none" stroke="white" stroke-width="18" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Lage schoen (enkelhoogte, typisch voor noren) -->
+    <path d="M100 250c0-18 14-32 32-32h148c18 0 32 14 32 32v70c0 10-8 18-18 18H118c-10 0-18-8-18-18v-70z"/>
+    <!-- Lang ijzer - noorse schaats heeft ijzer dat ver achter de hiel uitsteekt -->
+    <path d="M80 350 L450 350" stroke-width="12"/>
+    <!-- Verbindingen schoen-ijzer -->
+    <path d="M130 320 L130 350 M290 320 L290 350"/>
+    <!-- Punt ijzer -->
+    <path d="M450 350 L470 349" stroke-width="8"/>
+  </g>
+</svg>

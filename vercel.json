@@ -1,0 +1,8 @@
+{
+  "rewrites": [
+    {
+      "source": "/api/vink/:path*",
+      "destination": "https://vinksite.com/:path*"
+    }
+  ]
+}

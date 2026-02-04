@@ -1,0 +1,16 @@
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+# API-proxy naar VinkSite
+[[redirects]]
+  from = "/api/vink/*"
+  to = "https://vinksite.com/:splat"
+  status = 200
+  force = true
+
+# SPA-routing: alle andere routes naar index.html
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
