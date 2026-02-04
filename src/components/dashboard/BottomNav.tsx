@@ -19,12 +19,14 @@ interface BottomNavProps {
 
 export function BottomNav({ activeTab, onTabChange, className }: BottomNavProps) {
   const nav = (
-    <nav
-      role="tablist"
-      aria-label="Hoofdnavigatie"
-      className={cn("ios-glass-nav flex flex-col md:hidden", className)}
-    >
-      <div className="relative z-10 flex items-center justify-around h-16">
+    <div className={cn("ios-glass-nav-wrapper md:hidden", className)}>
+      <div className="ios-glass-nav-blur" aria-hidden />
+      <nav
+        role="tablist"
+        aria-label="Hoofdnavigatie"
+        className="ios-glass-nav flex flex-col"
+      >
+        <div className="relative z-10 flex items-center justify-around h-16">
         {tabs.map(({ id, label, icon: Icon }) => {
           const isActive = activeTab === id;
           return (
@@ -52,8 +54,9 @@ export function BottomNav({ activeTab, onTabChange, className }: BottomNavProps)
             </button>
           );
         })}
-      </div>
-    </nav>
+        </div>
+      </nav>
+    </div>
   );
 
   return typeof document !== "undefined"
