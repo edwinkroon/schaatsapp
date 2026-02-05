@@ -60,7 +60,7 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
                 const prevLapTime = i > 0 ? laps[i - 1].lap_time : null;
                 const diff = prevLapTime !== null ? lap.lap_time - prevLapTime : null;
                 const arrow = diff !== null ? (diff > 0 ? "↑" : diff < 0 ? "↓" : "") : "";
-                const arrowClass = diff !== null ? (diff > 0 ? "text-green-600 dark:text-green-500" : diff < 0 ? "text-red-600 dark:text-red-500" : "") : "";
+                const arrowClass = diff !== null ? (diff > 0 ? "text-red-600 dark:text-red-500" : diff < 0 ? "text-green-600 dark:text-green-500" : "") : "";
                 const diffContent = diff !== null ? (
                   <span className="tabular-nums">
                     {arrow && <span className={arrowClass}>{arrow} </span>}
