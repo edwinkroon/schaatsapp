@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from "react";
+import { memo } from "react";
 import {
   LineChart,
   Line,
@@ -7,7 +7,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Brush,
   ReferenceLine,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -28,22 +27,9 @@ const tooltipStyle = {
 
 function SpeedLineChartInner({ laps }: SpeedLineChartProps) {
   const data = getLapTimeChartData(laps).map((d) => ({ ...d, snelheid: Math.round(d.snelheid * 10) / 10 }));
-  const [brushRange, setBrushRange] = useState({ startIndex: 0, endIndex: 49 });
   const avgSnelheid = data.length > 0
     ? Math.round((data.reduce((s, d) => s + d.snelheid, 0) / data.length) * 10) / 10
     : 0;
-
-  useEffect(() => {
-    if (data.length > 0) {
-      setBrushRange({
-        startIndex: 0,
-        endIndex: Math.min(49, data.length - 1),
-      });
-    }
-  }, [data.length]);
-
-  const displayData =
-    data.length > 20 ? data.slice(brushRange.startIndex, brushRange.endIndex + 1) : data;
 
   if (data.length === 0) {
     return (
@@ -68,10 +54,10 @@ function SpeedLineChartInner({ laps }: SpeedLineChartProps) {
           Zie hoe je snelheid verandert tijdens een sessie. Gemiddeld: {avgSnelheid} km/h
         </p>
       </CardHeader>
-      <CardContent className="p-3 sm:p-4 md:p-5">
+      <CardContent className="px-3 pt-3 pb-0 sm:px-4 sm:pt-4 md:px-5 md:pt-5">
         <div className="h-[220px] sm:h-[280px] md:h-[350px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={displayData} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
+            <LineChart data={data} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
               <XAxis
                 dataKey="lap"
@@ -110,21 +96,6 @@ function SpeedLineChartInner({ laps }: SpeedLineChartProps) {
                 dot={{ r: 2 }}
                 activeDot={{ r: 4 }}
               />
-              {data.length > 20 && (
-                <Brush
-                  dataKey="lap"
-                  height={24}
-                  stroke="var(--primary)"
-                  fill="var(--muted)"
-                  startIndex={brushRange.startIndex}
-                  endIndex={brushRange.endIndex}
-                  onChange={(range) => {
-                    if (range?.startIndex != null && range?.endIndex != null) {
-                      setBrushRange({ startIndex: range.startIndex, endIndex: range.endIndex });
-                    }
-                  }}
-                />
-              )}
             </LineChart>
           </ResponsiveContainer>
         </div>

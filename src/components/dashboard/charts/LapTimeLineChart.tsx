@@ -1,4 +1,4 @@
-import { memo, useState, useEffect } from "react";
+import { memo } from "react";
 import {
   LineChart,
   Line,
@@ -7,7 +7,6 @@ import {
   CartesianGrid,
   Tooltip,
   ResponsiveContainer,
-  Brush,
 } from "recharts";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SchaatsLap } from "@/lib/data";
@@ -27,21 +26,6 @@ const tooltipStyle = {
 
 function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
   const data = getLapTimeChartData(laps);
-  const [brushRange, setBrushRange] = useState({ startIndex: 0, endIndex: 49 });
-
-  useEffect(() => {
-    if (data.length > 0) {
-      setBrushRange({
-        startIndex: 0,
-        endIndex: Math.min(49, data.length - 1),
-      });
-    }
-  }, [data.length]);
-
-  const displayData =
-    data.length > 20
-      ? data.slice(brushRange.startIndex, brushRange.endIndex + 1)
-      : data;
 
   if (data.length === 0) {
     return (
@@ -68,10 +52,10 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
           <p className="text-muted-foreground text-sm">{selectedDate}</p>
         )}
       </CardHeader>
-      <CardContent className="p-3 sm:p-4 md:p-5">
+      <CardContent className="px-3 pt-3 pb-0 sm:px-4 sm:pt-4 md:px-5 md:pt-5">
         <div className="h-[220px] sm:h-[280px] md:h-[350px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={displayData} margin={{ top: 4, right: 4, left: -8, bottom: 36 }}>
+            <LineChart data={data} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
               <XAxis
                 dataKey="lap"
@@ -109,21 +93,6 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
                 dot={{ r: 2 }}
                 activeDot={{ r: 4 }}
               />
-              {data.length > 20 && (
-                <Brush
-                  dataKey="lap"
-                  height={24}
-                  stroke="var(--primary)"
-                  fill="var(--muted)"
-                  startIndex={brushRange.startIndex}
-                  endIndex={brushRange.endIndex}
-                  onChange={(range) => {
-                    if (range?.startIndex != null && range?.endIndex != null) {
-                      setBrushRange({ startIndex: range.startIndex, endIndex: range.endIndex });
-                    }
-                  }}
-                />
-              )}
             </LineChart>
           </ResponsiveContainer>
         </div>
