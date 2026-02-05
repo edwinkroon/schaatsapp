@@ -212,7 +212,7 @@ export function Dashboard() {
                   <div className="md:hidden space-y-4">
                     {mobileTab === "home" && (
                       <>
-                        <div className="space-y-1.5">
+                        <div className="space-y-1.5 pt-5 md:pt-0">
                           <label className="text-muted-foreground text-xs font-medium">Dag</label>
                           <DateSelector
                             selectedDate={selectedDate}

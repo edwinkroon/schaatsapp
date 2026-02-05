@@ -140,21 +140,85 @@
   }
 }
 
-/* Subtle background gradient for main content */
+/* Light mode: rijke gradient – zachte blauwe tinten */
 .bg-dashboard {
-  background: linear-gradient(
-    160deg,
-    oklch(0.985 0.002 240) 0%,
-    oklch(0.975 0.006 220) 100%
-  );
+  background:
+    radial-gradient(
+      ellipse 90% 60% at 75% 35%,
+      rgba(200, 220, 255, 0.5) 0%,
+      rgba(180, 210, 250, 0.25) 35%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 85% 55%,
+      rgba(210, 235, 255, 0.4) 0%,
+      rgba(190, 220, 250, 0.2) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 80% at 15% 85%,
+      rgba(200, 230, 255, 0.35) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      145deg,
+      #f5f8fc 0%,
+      #eef4fa 20%,
+      #e6f0f8 45%,
+      #eef6fa 70%,
+      #f5f8fc 100%
+    );
+  position: relative;
 }
 
+.bg-dashboard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.02;
+  pointer-events: none;
+}
+
+/* Dark mode: rijke gradient – purples, indigo, warme accentband */
 .dark .bg-dashboard {
-  background: linear-gradient(
-    160deg,
-    oklch(0.14 0.02 250) 0%,
-    oklch(0.13 0.02 260) 100%
-  );
+  background:
+    radial-gradient(
+      ellipse 90% 60% at 75% 35%,
+      rgba(180, 100, 220, 0.18) 0%,
+      rgba(140, 80, 200, 0.1) 35%,
+      transparent 65%
+    ),
+    radial-gradient(
+      ellipse 70% 50% at 85% 55%,
+      rgba(255, 150, 180, 0.12) 0%,
+      rgba(200, 120, 220, 0.08) 40%,
+      transparent 70%
+    ),
+    radial-gradient(
+      ellipse 60% 80% at 15% 85%,
+      rgba(80, 50, 140, 0.15) 0%,
+      transparent 50%
+    ),
+    linear-gradient(
+      145deg,
+      #0d0815 0%,
+      #15102a 20%,
+      #12102e 45%,
+      #181535 70%,
+      #0d0815 100%
+    );
+  position: relative;
+}
+
+/* Subtiele noise-textuur voor diepte (optioneel) */
+.dark .bg-dashboard::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  opacity: 0.03;
+  pointer-events: none;
 }
 
 /* Apple Liquid Glass header – frosted, goede contrast */
@@ -240,6 +304,27 @@
   .ios-glass-nav-wrapper {
     display: flex !important;
   }
+}
+
+/* Glass/frosty look voor tegels – achtergrond zichtbaar, toegankelijk */
+.card-glass {
+  background: rgba(255, 255, 255, 0.45);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.7);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.9),
+    0 4px 24px rgba(0, 0, 0, 0.04);
+}
+
+.dark .card-glass {
+  background: rgba(28, 28, 35, 0.5);
+  backdrop-filter: blur(20px) saturate(150%);
+  -webkit-backdrop-filter: blur(20px) saturate(150%);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.08),
+    0 4px 24px rgba(0, 0, 0, 0.2);
 }
 
 /* Card hover lift */

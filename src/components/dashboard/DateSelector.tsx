@@ -32,16 +32,16 @@ export function DateSelector({
   return (
     <Popover open={open} onOpenChange={setOpen}>
       <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          className={cn(
-            "w-full justify-start text-left font-normal",
-            !selectedDate && "text-muted-foreground",
-            className
-          )}
-          disabled={!hasData}
-          aria-label="Selecteer dag"
-        >
+        <div className={cn("card-glass rounded-lg px-3 py-2", className)}>
+          <Button
+            variant="ghost"
+            className={cn(
+              "w-full justify-start text-left font-normal h-auto py-1.5",
+              !selectedDate && "text-muted-foreground"
+            )}
+            disabled={!hasData}
+            aria-label="Selecteer dag"
+          >
           <Calendar className="mr-2 size-4 shrink-0" aria-hidden />
           {selectedDate ? (
             <span className="flex flex-col items-start">
@@ -55,9 +55,10 @@ export function DateSelector({
           ) : (
             "Laad data om datum te kiezen"
           )}
-        </Button>
+          </Button>
+        </div>
       </PopoverTrigger>
-      <PopoverContent className="w-auto p-0" align="start">
+      <PopoverContent className="card-glass w-auto p-0 border-border/50" align="start">
         <CalendarComponent
           mode="single"
           selected={

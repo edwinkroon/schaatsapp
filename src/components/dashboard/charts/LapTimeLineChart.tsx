@@ -62,14 +62,11 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
     <Card>
       <CardHeader>
         <CardTitle>Rondetijden (s)</CardTitle>
-        <p className="text-muted-foreground text-sm">
-          Gebruik de slider onder de grafiek om in te zoomen. Sleep om het bereik te verplaatsen.
-        </p>
       </CardHeader>
       <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="h-[220px] sm:h-[280px] md:h-[350px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
-            <LineChart data={displayData} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
+            <LineChart data={displayData} margin={{ top: 4, right: 4, left: -8, bottom: 36 }}>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
               <XAxis
                 dataKey="lap"
