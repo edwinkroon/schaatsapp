@@ -40,7 +40,7 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
       </CardHeader>
       <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="overflow-x-auto max-h-none sm:max-h-[800px] overflow-y-visible sm:overflow-y-auto -mx-2 sm:mx-0 px-2 sm:px-0 overscroll-y-auto">
-          <Table className="text-[14px] sm:text-sm min-w-[320px] sm:min-w-0 table-fixed w-full [&_th]:text-[16px] [&_th]:h-7 [&_th]:py-1 sm:[&_th]:h-10 sm:[&_th]:py-2 [&_td]:py-1.5 sm:[&_td]:py-2">
+          <Table className="text-[14px] sm:text-sm min-w-[320px] sm:min-w-0 table-fixed w-full [&_th]:text-[14px] [&_th]:h-7 [&_th]:py-1 sm:[&_th]:h-10 sm:[&_th]:py-2 [&_td]:py-1.5 sm:[&_td]:py-2">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-1/5 text-right">Ronde</TableHead>

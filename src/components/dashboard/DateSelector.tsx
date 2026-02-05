@@ -42,7 +42,7 @@ export function DateSelector({
             disabled={!hasData}
             aria-label="Selecteer dag"
           >
-          <CalendarDays className="mr-2 size-4 shrink-0" aria-hidden />
+          <CalendarDays className="mr-2 size-5 shrink-0" aria-hidden />
           {selectedDate ? (
             <span className="flex flex-col items-start">
               <span>{formatDateDisplay(selectedDate)}</span>
