@@ -1,14 +1,14 @@
 import { createPortal } from "react-dom";
-import { Home, LineChart, Trophy, Calendar } from "lucide-react";
+import { LayoutDashboard, TrendingUp, Medal, CalendarDays } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export type NavTab = "home" | "grafieken" | "records" | "seizoenen";
 
-const tabs: { id: NavTab; label: string; icon: React.ComponentType<{ className?: string }> }[] = [
-  { id: "home", label: "Home", icon: Home },
-  { id: "grafieken", label: "Grafieken", icon: LineChart },
-  { id: "records", label: "Records", icon: Trophy },
-  { id: "seizoenen", label: "Seizoenen", icon: Calendar },
+const tabs: { id: NavTab; label: string; icon: React.ComponentType<{ className?: string; strokeWidth?: number }> }[] = [
+  { id: "home", label: "Home", icon: LayoutDashboard },
+  { id: "grafieken", label: "Grafieken", icon: TrendingUp },
+  { id: "records", label: "Records", icon: Medal },
+  { id: "seizoenen", label: "Seizoenen", icon: CalendarDays },
 ];
 
 interface BottomNavProps {
@@ -45,7 +45,8 @@ export function BottomNav({ activeTab, onTabChange, className }: BottomNavProps)
               )}
             >
               <Icon
-                className={cn("size-6 shrink-0", isActive && "stroke-[2.5]")}
+                className={cn("size-5 shrink-0", isActive && "stroke-[2.5]")}
+                strokeWidth={1.75}
                 aria-hidden
               />
               <span className="text-[10px] font-medium truncate max-w-full px-1">
