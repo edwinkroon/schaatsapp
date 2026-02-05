@@ -40,13 +40,19 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
       </CardHeader>
       <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="overflow-x-auto max-h-none sm:max-h-[800px] overflow-y-visible sm:overflow-y-auto -mx-2 sm:mx-0 px-2 sm:px-0 overscroll-y-auto">
-          <Table className="text-[14px] sm:text-sm min-w-[320px] sm:min-w-0 table-fixed w-full [&_th]:text-[14px] [&_th]:h-7 [&_th]:py-1 sm:[&_th]:h-10 sm:[&_th]:py-2 [&_td]:py-1.5 sm:[&_td]:py-2">
+          <Table className="text-[14px] sm:text-sm min-w-[320px] sm:min-w-0 table-fixed w-full [&_th]:text-[14px] [&_th]:h-7 [&_th]:py-1 [&_th]:align-top sm:[&_th]:h-10 sm:[&_th]:py-2 [&_td]:py-1.5 sm:[&_td]:py-2">
             <TableHeader>
               <TableRow>
-                <TableHead className="w-1/5 text-right">Ronde</TableHead>
-                <TableHead className="w-1/5 text-right">Tijd</TableHead>
-                <TableHead className="w-1/5 text-right">Snelheid</TableHead>
-                <TableHead className="text-right">Tijdsverschil</TableHead>
+                <TableHead className="w-1/5 text-center">Ronde</TableHead>
+                <TableHead className="w-1/5 text-center">Tijd</TableHead>
+                <TableHead className="w-1/5 text-center">
+                  <span className="block">Snelheid</span>
+                  <span className="block text-sm sm:text-base font-normal text-muted-foreground">(km/h)</span>
+                </TableHead>
+                <TableHead className="text-center">
+                  <span className="block">Tijdsverschil</span>
+                  <span className="block text-sm sm:text-base font-normal text-muted-foreground">(in seconden)</span>
+                </TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -58,7 +64,7 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
                 const diffContent = diff !== null ? (
                   <span className="tabular-nums">
                     {arrow && <span className={arrowClass}>{arrow} </span>}
-                    {Math.abs(diff).toFixed(2)} s
+                    {Math.abs(diff).toFixed(2)}
                   </span>
                 ) : "—";
                 const isFastest = i === fastestIndex;
@@ -67,10 +73,10 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
                     key={`${lap.datum}-${lap.lap_num}-${i}`}
                     className={isFastest ? "bg-sky-100/60 dark:bg-violet-900/40 font-black" : undefined}
                   >
-                    <TableCell className="text-right font-medium tabular-nums">{i + 1}</TableCell>
-                    <TableCell className="text-right tabular-nums">{formatLapTimeSeconds(lap.lap_time)} s</TableCell>
-                    <TableCell className="text-right tabular-nums">{lap.snelheid.toFixed(1)} km/h</TableCell>
-                    <TableCell className="text-right">{diffContent}</TableCell>
+                    <TableCell className="text-center font-medium tabular-nums">{i + 1}</TableCell>
+                    <TableCell className="text-center tabular-nums">{formatLapTimeSeconds(lap.lap_time)}</TableCell>
+                    <TableCell className="text-center tabular-nums">{lap.snelheid.toFixed(1)}</TableCell>
+                    <TableCell className="text-center">{diffContent}</TableCell>
                   </TableRow>
                 );
               })}
