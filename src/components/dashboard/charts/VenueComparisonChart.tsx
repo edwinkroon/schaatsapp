@@ -50,7 +50,7 @@ function VenueComparisonChartInner({ laps }: VenueComparisonChartProps) {
           Ronden, gem. lap tijd en snelheid per baan
         </p>
       </CardHeader>
-      <CardContent className="p-3 sm:p-4 md:p-5">
+      <CardContent className="px-3 pt-3 pb-0 sm:px-4 sm:pt-4 md:px-5 md:pt-5">
         <div className="h-[240px] sm:h-[280px] md:h-[300px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <BarChart data={data} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
