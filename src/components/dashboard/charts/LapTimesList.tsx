@@ -39,8 +39,8 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
         </CardTitle>
       </CardHeader>
       <CardContent className="p-3 sm:p-4 md:p-5">
-        <div className="overflow-x-auto max-h-[420px] sm:max-h-[800px] overflow-y-auto -mx-2 sm:mx-0 px-2 sm:px-0">
-          <Table className="text-xs sm:text-sm min-w-[320px] sm:min-w-0 table-fixed w-full [&_th]:h-7 [&_th]:py-1 sm:[&_th]:h-10 sm:[&_th]:py-2 [&_td]:py-1.5 sm:[&_td]:py-2">
+        <div className="overflow-x-auto max-h-none sm:max-h-[800px] overflow-y-visible sm:overflow-y-auto -mx-2 sm:mx-0 px-2 sm:px-0 overscroll-y-auto">
+          <Table className="text-[14px] sm:text-sm min-w-[320px] sm:min-w-0 table-fixed w-full [&_th]:text-[16px] [&_th]:h-7 [&_th]:py-1 sm:[&_th]:h-10 sm:[&_th]:py-2 [&_td]:py-1.5 sm:[&_td]:py-2">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-1/5 text-right">Ronde</TableHead>
@@ -65,7 +65,7 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
                 return (
                   <TableRow
                     key={`${lap.datum}-${lap.lap_num}-${i}`}
-                    className={isFastest ? "bg-violet-100 dark:bg-violet-950/50" : undefined}
+                    className={isFastest ? "bg-emerald-50/70 dark:bg-violet-950/50 font-semibold" : undefined}
                   >
                     <TableCell className="text-right font-medium tabular-nums">{i + 1}</TableCell>
                     <TableCell className="text-right tabular-nums">{formatLapTimeSeconds(lap.lap_time)} s</TableCell>

@@ -37,18 +37,24 @@ export function BottomNav({ activeTab, onTabChange, className }: BottomNavProps)
               aria-label={label}
               onClick={() => onTabChange(id)}
               className={cn(
-                "flex flex-col items-center justify-center gap-1 flex-1 min-w-0 h-full",
+                "flex flex-col items-center justify-center gap-1 flex-1 min-w-0 h-full relative",
                 "touch-manipulation active:scale-95 transition-transform",
                 isActive
-                  ? "text-primary font-semibold"
-                  : "text-foreground/65 hover:text-foreground"
+                  ? "text-foreground"
+                  : "text-foreground/55 hover:text-foreground/80"
               )}
             >
               <Icon
-                className={cn("size-6 shrink-0", isActive && "stroke-[2.5]")}
+                className="size-6 shrink-0"
                 strokeWidth={1.75}
                 aria-hidden
               />
+              {isActive && (
+                <span
+                  className="nav-indicator absolute bottom-2 left-1/2 -translate-x-1/2"
+                  aria-hidden
+                />
+              )}
               <span className="text-[10px] font-medium truncate max-w-full px-1">
                 {label}
               </span>

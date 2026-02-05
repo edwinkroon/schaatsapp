@@ -253,8 +253,8 @@
 .ios-glass-nav-wrapper {
   position: fixed;
   bottom: max(10px, env(safe-area-inset-bottom, 0px) + 10px);
-  left: 10px;
-  right: 10px;
+  left: 20px;
+  right: 20px;
   z-index: 9999;
   min-height: 64px;
   padding-bottom: env(safe-area-inset-bottom, 0px);
@@ -304,6 +304,24 @@
   .ios-glass-nav-wrapper {
     display: flex !important;
   }
+}
+
+/* Nav indicator: dot → lijntje animatie */
+@keyframes nav-indicator-expand {
+  from {
+    width: 4px;
+  }
+  to {
+    width: 24px;
+  }
+}
+
+.nav-indicator {
+  height: 2px;
+  border-radius: 9999px;
+  background: currentColor;
+  opacity: 0.6;
+  animation: nav-indicator-expand 0.25s ease-out forwards;
 }
 
 /* Glass/frosty look voor tegels – achtergrond zichtbaar, toegankelijk */

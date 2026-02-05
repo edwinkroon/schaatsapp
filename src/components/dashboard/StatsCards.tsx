@@ -14,7 +14,7 @@ interface StatsCardsProps {
 const cards = [
   { key: "laps", title: "Ronden", value: (v: number) => v.toLocaleString() },
   { key: "best", title: "Beste ronde (s)", value: (v: number) => formatLapTimeSeconds(v) },
-  { key: "bestSeason", title: "Beste dit seizoen (s)", value: (v: number) => formatLapTimeSeconds(v) },
+  { key: "bestSeason", title: "Beste seizoentijd (s)", value: (v: number) => formatLapTimeSeconds(v) },
   { key: "speed", title: "Gem. snelheid (km/h)", value: (v: number) => v.toFixed(1) },
   { key: "maxSpeed", title: "Hoogste snelheid (km/h)", value: (v: number) => v.toFixed(1) },
   { key: "distance", title: "Afstand (km)", value: (v: number) => v.toFixed(1) },
@@ -47,7 +47,7 @@ export function StatsCards({
             key={key}
             className="overflow-hidden p-3 min-h-0 transition-all active:scale-[0.98]"
           >
-            <p className="text-muted-foreground text-[11px] font-medium truncate mb-0.5">
+            <p className="text-muted-foreground text-[12px] font-medium truncate mb-0.5">
               {title}
             </p>
             <p className="font-bold text-base tabular-nums truncate">
