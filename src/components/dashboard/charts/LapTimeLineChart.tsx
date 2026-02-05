@@ -58,10 +58,15 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
     );
   }
 
+  const selectedDate = data.length > 0 && data[0].datum ? formatDateDisplay(data[0].datum) : null;
+
   return (
     <Card>
       <CardHeader>
         <CardTitle>Rondetijden (s)</CardTitle>
+        {selectedDate && (
+          <p className="text-muted-foreground text-sm">{selectedDate}</p>
+        )}
       </CardHeader>
       <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="h-[220px] sm:h-[280px] md:h-[350px] w-full min-w-0">

@@ -165,7 +165,7 @@ export function Dashboard() {
         hasData={filteredLaps.length > 0}
         onRefresh={() => refetch(true)}
       />
-      <SidebarInset>
+      <SidebarInset className="bg-dashboard">
         <Header
           darkMode={darkMode}
           onToggleDarkMode={toggleDarkMode}
@@ -178,7 +178,7 @@ export function Dashboard() {
         />
         <main
           id="main-content"
-          className="bg-dashboard flex-1 overflow-auto px-3 py-3 sm:px-4 sm:py-4 md:px-6 md:py-5 min-w-0 pb-20 md:pb-5"
+          className="flex-1 overflow-auto px-3 py-3 sm:px-4 sm:py-4 md:px-6 md:py-5 min-w-0 pb-20 md:pb-5"
           role="main"
           aria-label="Dashboard inhoud"
         >
@@ -212,8 +212,7 @@ export function Dashboard() {
                   <div className="md:hidden space-y-4">
                     {mobileTab === "home" && (
                       <>
-                        <div className="space-y-1.5 pt-5 md:pt-0">
-                          <label className="text-muted-foreground text-xs font-medium">Dag</label>
+                        <div className="space-y-1.5">
                           <DateSelector
                             selectedDate={selectedDate}
                             availableDays={availableDays}

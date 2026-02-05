@@ -9,7 +9,7 @@ import {
 } from "@/components/ui/table";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import type { SchaatsLap } from "@/lib/data";
-import { formatLapTimeSeconds } from "@/lib/utils";
+import { formatLapTimeSeconds, formatDateWithWeekday } from "@/lib/utils";
 
 interface LapTimesListProps {
   laps: SchaatsLap[];
@@ -34,10 +34,9 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
   return (
     <Card>
       <CardHeader>
-        <CardTitle>Rondetijden</CardTitle>
-        <p className="text-muted-foreground text-sm">
-          Alle ronden van de geselecteerde dag
-        </p>
+        <CardTitle>
+          Rondetijden{laps[0]?.datum ? ` – ${formatDateWithWeekday(laps[0].datum)}` : ""}
+        </CardTitle>
       </CardHeader>
       <CardContent className="p-3 sm:p-4 md:p-5">
         <div className="overflow-x-auto max-h-[420px] sm:max-h-[800px] overflow-y-auto -mx-2 sm:mx-0 px-2 sm:px-0">

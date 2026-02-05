@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Calendar } from "lucide-react";
+import { CalendarDays } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   Popover,
@@ -42,7 +42,7 @@ export function DateSelector({
             disabled={!hasData}
             aria-label="Selecteer dag"
           >
-          <Calendar className="mr-2 size-4 shrink-0" aria-hidden />
+          <CalendarDays className="mr-2 size-4 shrink-0" aria-hidden />
           {selectedDate ? (
             <span className="flex flex-col items-start">
               <span>{formatDateDisplay(selectedDate)}</span>

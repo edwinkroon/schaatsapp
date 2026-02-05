@@ -8,7 +8,7 @@ const tabs: { id: NavTab; label: string; icon: React.ComponentType<{ className?:
   { id: "home", label: "Home", icon: LayoutDashboard },
   { id: "grafieken", label: "Grafieken", icon: TrendingUp },
   { id: "records", label: "Records", icon: Medal },
-  { id: "seizoenen", label: "Seizoenen", icon: CalendarDays },
+  { id: "seizoenen", label: "Seizoen", icon: CalendarDays },
 ];
 
 interface BottomNavProps {
@@ -45,7 +45,7 @@ export function BottomNav({ activeTab, onTabChange, className }: BottomNavProps)
               )}
             >
               <Icon
-                className={cn("size-5 shrink-0", isActive && "stroke-[2.5]")}
+                className={cn("size-6 shrink-0", isActive && "stroke-[2.5]")}
                 strokeWidth={1.75}
                 aria-hidden
               />

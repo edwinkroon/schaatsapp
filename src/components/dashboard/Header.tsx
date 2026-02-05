@@ -25,7 +25,7 @@ export function Header({
     <header
       role="banner"
       className={cn(
-        "header-glass flex h-12 shrink-0 items-center justify-between gap-2 px-3 sm:px-4 md:px-6",
+        "card-glass flex h-12 shrink-0 items-center justify-between gap-2 rounded-none border-b border-border/50 px-3 sm:px-4 md:px-6",
         className
       )}
     >
