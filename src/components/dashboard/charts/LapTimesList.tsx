@@ -65,7 +65,7 @@ function LapTimesListInner({ laps }: LapTimesListProps) {
                 return (
                   <TableRow
                     key={`${lap.datum}-${lap.lap_num}-${i}`}
-                    className={isFastest ? "bg-emerald-50/70 dark:bg-violet-950/50 font-semibold" : undefined}
+                    className={isFastest ? "bg-sky-100/60 dark:bg-violet-900/40 font-black" : undefined}
                   >
                     <TableCell className="text-right font-medium tabular-nums">{i + 1}</TableCell>
                     <TableCell className="text-right tabular-nums">{formatLapTimeSeconds(lap.lap_time)} s</TableCell>
