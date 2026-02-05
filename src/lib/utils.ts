@@ -50,3 +50,16 @@ export function formatDateDisplay(dateStr: string): string {
     year: "numeric",
   });
 }
+
+/** Format YYYY-MM-DD naar "Maandag 26-01-2026" */
+export function formatDateWithWeekday(dateStr: string): string {
+  if (!dateStr) return "";
+  const d = new Date(dateStr + "T12:00:00");
+  const weekday = d.toLocaleDateString("nl-NL", { weekday: "long" });
+  const datePart = d.toLocaleDateString("nl-NL", {
+    day: "2-digit",
+    month: "2-digit",
+    year: "numeric",
+  });
+  return `${weekday.charAt(0).toUpperCase() + weekday.slice(1)} ${datePart}`;
+}
