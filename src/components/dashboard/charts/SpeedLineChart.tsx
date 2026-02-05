@@ -77,7 +77,7 @@ function SpeedLineChartInner({ laps }: SpeedLineChartProps) {
                 dataKey="lap"
                 tick={{ fontSize: 9 }}
                 className="text-[9px] sm:text-xs"
-                tickFormatter={(v) => `#${v}`}
+                tickFormatter={(v) => String(v)}
               />
               <YAxis
                 tick={{ fontSize: 9 }}
