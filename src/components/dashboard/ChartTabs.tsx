@@ -27,8 +27,6 @@ interface ChartTabsProps {
   bestLapSeasonDate?: string | null;
   /** Snelste totale tijd over 5 opeenvolgende ronden (s) */
   best5TotalTime?: number | null;
-  /** Gem. snelheid van die 5 ronden (km/h) */
-  best5AvgSpeed?: number | null;
   /** Datum van beste 5 ronden */
   best5Date?: string | null;
   /** Meest ronden in een sessie voor records-tab tegeltje */
@@ -47,7 +45,7 @@ interface ChartTabsProps {
   className?: string;
 }
 
-function ChartTabsInner({ laps, allLapsForSeasons = laps, bestLapSeason = null, bestLapSeasonSpeed = null, bestLapSeasonDate = null, best5TotalTime = null, best5AvgSpeed = null, best5Date = null, maxLapsInSession = 0, maxLapsInSessionDate = null, maxLapsInOneHour = 0, maxLapsInOneHourAvgSpeed = null, maxLapsInOneHourDate = null, isLoading, chartsOnly = false, className }: ChartTabsProps) {
+function ChartTabsInner({ laps, allLapsForSeasons = laps, bestLapSeason = null, bestLapSeasonSpeed = null, bestLapSeasonDate = null, best5TotalTime = null, best5Date = null, maxLapsInSession = 0, maxLapsInSessionDate = null, maxLapsInOneHour = 0, maxLapsInOneHourAvgSpeed = null, maxLapsInOneHourDate = null, isLoading, chartsOnly = false, className }: ChartTabsProps) {
   const grafiekenContent = (
     <div className="space-y-6">
       <ErrorBoundary>
@@ -115,7 +113,7 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, bestLapSeason = null, 
       <TabsContent value="records" className="mt-3 space-y-3 min-w-0" role="tabpanel">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
           <BestSeasonTile bestLapSeason={bestLapSeason} bestLapSeasonSpeed={bestLapSeasonSpeed} date={bestLapSeasonDate} />
-          <Best5Tile totalTime={best5TotalTime} avgSpeed={best5AvgSpeed} date={best5Date} />
+          <Best5Tile totalTime={best5TotalTime} date={best5Date} />
           <MaxLapsInSessionTile maxLaps={maxLapsInSession} date={maxLapsInSessionDate} />
           <MaxLapsInOneHourTile maxLaps={maxLapsInOneHour} avgSpeed={maxLapsInOneHourAvgSpeed} date={maxLapsInOneHourDate} />
         </div>

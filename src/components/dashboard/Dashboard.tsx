@@ -277,7 +277,7 @@ export function Dashboard() {
                       <div className="space-y-3 min-w-0">
                         <div className="grid grid-cols-2 gap-2 sm:gap-3 min-w-0">
                           <BestSeasonTile bestLapSeason={stats.bestLapSeason} bestLapSeasonSpeed={stats.bestLapSeasonSpeed} date={stats.bestLapSeasonDate} />
-                          <Best5Tile totalTime={stats.best5TotalTime} avgSpeed={stats.best5AvgSpeed} date={stats.best5Date} />
+                          <Best5Tile totalTime={stats.best5TotalTime} date={stats.best5Date} />
                           <MaxLapsInSessionTile maxLaps={stats.maxLapsInSession} date={stats.maxLapsInSessionDate} />
                           <MaxLapsInOneHourTile maxLaps={stats.maxLapsInOneHour} avgSpeed={stats.maxLapsInOneHourAvgSpeed} date={stats.maxLapsInOneHourDate} />
                         </div>
@@ -310,7 +310,6 @@ export function Dashboard() {
                       bestLapSeasonSpeed={stats.bestLapSeasonSpeed}
                       bestLapSeasonDate={stats.bestLapSeasonDate}
                       best5TotalTime={stats.best5TotalTime}
-                      best5AvgSpeed={stats.best5AvgSpeed}
                       best5Date={stats.best5Date}
                       maxLapsInSession={stats.maxLapsInSession}
                       maxLapsInSessionDate={stats.maxLapsInSessionDate}

@@ -3,11 +3,10 @@ import { formatLapTimeSeconds, formatDateDisplay } from "@/lib/utils";
 
 interface Best5TileProps {
   totalTime: number | null | undefined;
-  avgSpeed?: number | null;
   date?: string | null;
 }
 
-export function Best5Tile({ totalTime, avgSpeed, date }: Best5TileProps) {
+export function Best5Tile({ totalTime, date }: Best5TileProps) {
   const time = totalTime ?? null;
   return (
     <Card className="overflow-hidden p-3 min-h-0 transition-all active:scale-[0.98] sm:overflow-visible sm:p-4 sm:transition-all sm:duration-200 sm:hover:-translate-y-0.5 sm:hover:shadow-lg card-hover">
@@ -19,11 +18,6 @@ export function Best5Tile({ totalTime, avgSpeed, date }: Best5TileProps) {
       <CardContent className="pb-0 pt-0 sm:pb-3 sm:pt-0 flex flex-col gap-1">
         <p className="font-bold text-base tabular-nums sm:text-lg md:text-xl">
           {time === null ? "—" : formatLapTimeSeconds(time)}
-          {time !== null && avgSpeed != null && (
-            <span className="text-muted-foreground font-normal text-xs sm:text-sm ml-1">
-              ({avgSpeed} km/h)
-            </span>
-          )}
         </p>
         {date && (
           <p className="text-muted-foreground text-xs sm:text-sm italic">
