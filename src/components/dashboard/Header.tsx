@@ -35,13 +35,13 @@ export function Header({
       <div className="flex items-center gap-4">
         {stats && stats.totalLaps > 0 && (
           <div className="hidden items-center gap-3 md:flex" role="status" aria-live="polite">
-            <span className="rounded-full bg-foreground/8 px-2.5 py-0.5 text-xs font-medium text-foreground">
+            <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-foreground">
               {stats.totalLaps} Ronden
             </span>
-            <span className="rounded-full bg-foreground/8 px-2.5 py-0.5 text-xs font-medium text-foreground">
+            <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-foreground">
               Ø {formatLapTimeSeconds(stats.avgLapTime)} s
             </span>
-            <span className="rounded-full bg-foreground/8 px-2.5 py-0.5 text-xs font-medium text-foreground">
+            <span className="rounded-full bg-primary/10 px-2.5 py-0.5 text-xs font-medium text-foreground">
               Ø {stats.avgSnelheid} km/h
             </span>
           </div>

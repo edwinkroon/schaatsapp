@@ -19,6 +19,7 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { cn, formatDateDisplay, dateToLocalDateString } from "@/lib/utils";
+import { SchaatsLogo } from "./SchaatsLogo";
 
 interface SidebarProps {
   transponder: string;
@@ -54,12 +55,8 @@ export function Sidebar({
     >
       <SidebarHeader className="border-b border-sidebar-border bg-sidebar/95 pt-2">
         <div className="flex h-[31px] items-center gap-3">
-          <div className="flex size-10 items-center justify-center overflow-hidden rounded-xl">
-            <img
-              src="/schaats.svg"
-              alt="Schaatsapp"
-              className="size-10 object-contain dark:invert"
-            />
+          <div className="flex size-10 items-center justify-center overflow-hidden rounded-xl text-sidebar-foreground">
+            <SchaatsLogo />
           </div>
           <span className="text-lg font-bold text-sidebar-foreground">Schaatsapp</span>
         </div>
