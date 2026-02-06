@@ -39,21 +39,18 @@ function Top10TableInner({ laps }: Top10TableProps) {
   }
 
   return (
-    <Card>
+    <Card className="min-w-0 overflow-hidden">
       <CardHeader>
         <CardTitle>Top 10 persoonlijke records</CardTitle>
-        <p className="text-muted-foreground text-sm">
-          Snelste rondes op lap tijd (laagste = beste)
-        </p>
       </CardHeader>
-      <CardContent className="p-3 sm:p-4 md:p-5">
-        <div className="overflow-x-auto -mx-1 sm:mx-0">
-          <Table className="w-full min-w-0 text-sm table-fixed">
+      <CardContent className="p-3 sm:p-4 md:p-5 overflow-hidden min-w-0 w-full">
+        <div className="min-w-0 w-full overflow-hidden">
+          <Table className="w-full text-sm table-fixed">
             <TableHeader>
               <TableRow>
                 <TableHead className="w-10 text-right">#</TableHead>
                 <TableHead className="text-right">Datum</TableHead>
-                <TableHead className="text-right">Lap tijd (s)</TableHead>
+                <TableHead className="text-right">Tijd (s)</TableHead>
                 <TableHead className="text-right">Snelheid (km/h)</TableHead>
               </TableRow>
             </TableHeader>

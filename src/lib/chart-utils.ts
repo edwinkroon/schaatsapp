@@ -1,5 +1,5 @@
 import { getISOWeek, getISOWeekYear } from "date-fns";
-import type { SchaatsLap } from "./data";
+import { getSeasonFromDate, type SchaatsLap } from "./data";
 
 const WEEKDAYS = ["Zo", "Ma", "Di", "Wo", "Do", "Vr", "Za"];
 
@@ -11,6 +11,41 @@ export function getLapTimeChartData(laps: SchaatsLap[]) {
     baan: lap.baan,
     datum: lap.datum,
   }));
+}
+
+/** Snelste tijd ooit over 5 opeenvolgende ronden (totaal + gem. snelheid + datum) */
+export function getBest5LapsStats(laps: SchaatsLap[]): {
+  totalTime: number | null;
+  avgSpeed: number | null;
+  date: string | null;
+} {
+  const byDate = new Map<string, SchaatsLap[]>();
+  for (const lap of laps) {
+    if (!lap.datum) continue;
+    const list = byDate.get(lap.datum) ?? [];
+    list.push(lap);
+    byDate.set(lap.datum, list);
+  }
+  let bestTotalTime: number | null = null;
+  let bestAvgSpeed: number | null = null;
+  let bestDate: string | null = null;
+  for (const [datum, sessionLaps] of byDate.entries()) {
+    const sorted = [...sessionLaps].sort((a, b) => a.lap_num - b.lap_num);
+    for (let i = 0; i + 5 <= sorted.length; i++) {
+      const five = sorted.slice(i, i + 5);
+      const totalTime = five.reduce((s, l) => s + l.lap_time, 0);
+      if (bestTotalTime === null || totalTime < bestTotalTime) {
+        bestTotalTime = totalTime;
+        bestAvgSpeed = totalTime > 0 ? Math.round((7200 / totalTime) * 10) / 10 : null;
+        bestDate = datum;
+      }
+    }
+  }
+  return {
+    totalTime: bestTotalTime !== null ? Math.round(bestTotalTime * 100) / 100 : null,
+    avgSpeed: bestAvgSpeed,
+    date: bestDate,
+  };
 }
 
 export function getTop10Bests(laps: SchaatsLap[]) {
@@ -78,6 +113,19 @@ export function getProgressData(laps: SchaatsLap[]) {
   return Array.from(byWeek.entries())
     .sort(([a], [b]) => a.localeCompare(b))
     .map(([week, bestTime]) => ({ week, bestTime }));
+}
+
+/** Aantal ronden per seizoen (okt–apr, bijv. 2024-2025) */
+export function getLapsPerSeasonData(laps: SchaatsLap[]) {
+  const bySeason = new Map<string, number>();
+  for (const lap of laps) {
+    const season = getSeasonFromDate(lap.datum ?? "");
+    if (!season) continue;
+    bySeason.set(season, (bySeason.get(season) ?? 0) + 1);
+  }
+  return Array.from(bySeason.entries())
+    .sort(([a], [b]) => a.localeCompare(b))
+    .map(([season, count]) => ({ season, laps: count }));
 }
 
 export function getVenueComparisonData(laps: SchaatsLap[]) {

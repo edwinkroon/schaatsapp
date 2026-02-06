@@ -67,23 +67,92 @@ export function getUniqueDatesFromLaps(laps: SchaatsLap[]): string[] {
 }
 
 /**
- * Haal beste rondetijd van het huidige seizoen (juli–juni).
- * Seizoen 2024-2025 = 2024-07-01 t/m 2025-06-30.
+ * Schaatsseizoen = oktober–april (geen schaatsen in zomer).
+ * Seizoen 2024-2025 = 2024-10-01 t/m 2025-04-30.
+ * Geef het seizoen (bijv. "2024-2025") voor een datum, of null als buiten seizoen (mei–sep).
  */
-export function getBestLapTimeThisSeason(laps: SchaatsLap[]): number | null {
+export function getSeasonFromDate(datum: string): string | null {
+  if (!datum) return null;
+  const d = new Date(datum + "T12:00:00");
+  const year = d.getFullYear();
+  const month = d.getMonth();
+  if (month >= 4 && month <= 8) return null;
+  const seasonStartYear = month >= 9 ? year : year - 1;
+  return `${seasonStartYear}-${seasonStartYear + 1}`;
+}
+
+/**
+ * Haal beste rondetijd van het huidige seizoen (oktober–april).
+ * Mei–sep = off-season, dan het afgelopen seizoen.
+ * Retourneert { time, speed, date } – speed is snelheid (km/h) van die ronde.
+ */
+export function getBestLapTimeThisSeason(laps: SchaatsLap[]): {
+  time: number | null;
+  speed: number | null;
+  date: string | null;
+} {
   const now = new Date();
   const year = now.getFullYear();
   const month = now.getMonth();
-  const seasonEndYear = month >= 6 ? year + 1 : year;
-  const seasonStart = `${seasonEndYear - 1}-07-01`;
-  const seasonEnd = `${seasonEndYear}-06-30`;
+  const seasonStartYear = month >= 9 ? year : year - 1;
+  const seasonStart = `${seasonStartYear}-10-01`;
+  const seasonEnd = `${seasonStartYear + 1}-04-30`;
 
-  let best: number | null = null;
+  let bestTime: number | null = null;
+  let bestSpeed: number | null = null;
+  let bestDate: string | null = null;
   for (const lap of laps) {
     if (!lap.datum || lap.datum < seasonStart || lap.datum > seasonEnd) continue;
-    if (best === null || lap.lap_time < best) best = lap.lap_time;
+    if (bestTime === null || lap.lap_time < bestTime) {
+      bestTime = lap.lap_time;
+      bestSpeed = Math.round(lap.snelheid * 10) / 10;
+      bestDate = lap.datum;
+    }
   }
-  return best;
+  return { time: bestTime, speed: bestSpeed, date: bestDate };
+}
+
+/**
+ * Meeste ronden binnen 1 uur (elk uur-window, per sessie).
+ * Binnen een sessie (zelfde datum) zijn laps opeenvolgend; we zoeken het max aantal
+ * opeenvolgende laps waarvan de totale tijd <= 3600 seconden.
+ * Retourneert { maxLaps, avgSpeed, date } – avgSpeed is gem. snelheid (km/h) van die ronden.
+ */
+export function getMaxLapsInOneHour(laps: SchaatsLap[]): {
+  maxLaps: number;
+  avgSpeed: number | null;
+  date: string | null;
+} {
+  const byDate = new Map<string, SchaatsLap[]>();
+  for (const lap of laps) {
+    if (!lap.datum) continue;
+    const list = byDate.get(lap.datum) ?? [];
+    list.push(lap);
+    byDate.set(lap.datum, list);
+  }
+  let max = 0;
+  let bestAvgSpeed: number | null = null;
+  let bestDate: string | null = null;
+  const ONE_HOUR = 3600;
+  for (const [datum, sessionLaps] of byDate.entries()) {
+    const sorted = [...sessionLaps].sort((a, b) => a.lap_num - b.lap_num);
+    for (let i = 0; i < sorted.length; i++) {
+      let sum = 0;
+      let count = 0;
+      let speedSum = 0;
+      for (let j = i; j < sorted.length && sum + sorted[j].lap_time <= ONE_HOUR; j++) {
+        sum += sorted[j].lap_time;
+        speedSum += sorted[j].snelheid;
+        count++;
+      }
+      if (count > max) {
+        max = count;
+        bestAvgSpeed = count > 0 ? Math.round((speedSum / count) * 10) / 10 : null;
+        bestDate = datum;
+      }
+    }
+  }
+  return { maxLaps: max, avgSpeed: bestAvgSpeed, date: bestDate };
 }
 
 /**

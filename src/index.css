@@ -326,3 +326,10 @@
 .dark .logo-stroke {
   stroke: currentColor !important;
 }
+
+/* Staafdiagram: subtielere kleuren + glass look in dark mode */
+.dark .bar-chart-container .recharts-rectangle {
+  fill: url(#barGradientDarkLapsPerSeason) !important;
+  stroke: rgba(255, 255, 255, 0.15) !important;
+  stroke-width: 1;
+}

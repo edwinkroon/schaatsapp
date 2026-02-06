@@ -3,8 +3,13 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { LapTimeLineChart } from "./charts/LapTimeLineChart";
 import { SpeedLineChart } from "./charts/SpeedLineChart";
 import { ProgressChart } from "./charts/ProgressChart";
+import { LapsPerSeasonBarChart } from "./charts/LapsPerSeasonBarChart";
 import { Top10Table } from "./charts/Top10Table";
 import { SeasonHeatmap } from "./charts/SeasonHeatmap";
+import { BestSeasonTile } from "./BestSeasonTile";
+import { MaxLapsInSessionTile } from "./MaxLapsInSessionTile";
+import { MaxLapsInOneHourTile } from "./MaxLapsInOneHourTile";
+import { Best5Tile } from "./Best5Tile";
 import { ChartSkeleton, TableSkeleton, HeatmapSkeleton } from "@/components/ChartSkeleton";
 import { ErrorBoundary } from "@/components/ErrorBoundary";
 import type { SchaatsLap } from "@/lib/data";
@@ -14,13 +19,35 @@ interface ChartTabsProps {
   laps: SchaatsLap[];
   /** Volledige dataset voor seizoensdropdown (zonder lap-range filter) */
   allLapsForSeasons?: SchaatsLap[];
+  /** Beste seizoentijd voor records-tab tegeltje */
+  bestLapSeason?: number | null;
+  /** Snelheid bij beste seizoentijd (km/h) */
+  bestLapSeasonSpeed?: number | null;
+  /** Datum van beste seizoentijd */
+  bestLapSeasonDate?: string | null;
+  /** Snelste totale tijd over 5 opeenvolgende ronden (s) */
+  best5TotalTime?: number | null;
+  /** Gem. snelheid van die 5 ronden (km/h) */
+  best5AvgSpeed?: number | null;
+  /** Datum van beste 5 ronden */
+  best5Date?: string | null;
+  /** Meest ronden in een sessie voor records-tab tegeltje */
+  maxLapsInSession?: number;
+  /** Datum van meeste ronden in sessie */
+  maxLapsInSessionDate?: string | null;
+  /** Meeste ronden in 1 uur voor records-tab tegeltje */
+  maxLapsInOneHour?: number;
+  /** Gem. snelheid bij meeste ronden in 1 uur (km/h) */
+  maxLapsInOneHourAvgSpeed?: number | null;
+  /** Datum van meeste ronden in 1 uur */
+  maxLapsInOneHourDate?: string | null;
   isLoading?: boolean;
   /** Alleen grafieken tonen (geen Records/Seizoenen tabs) – voor mobiele Grafieken-tab */
   chartsOnly?: boolean;
   className?: string;
 }
 
-function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, chartsOnly = false, className }: ChartTabsProps) {
+function ChartTabsInner({ laps, allLapsForSeasons = laps, bestLapSeason = null, bestLapSeasonSpeed = null, bestLapSeasonDate = null, best5TotalTime = null, best5AvgSpeed = null, best5Date = null, maxLapsInSession = 0, maxLapsInSessionDate = null, maxLapsInOneHour = 0, maxLapsInOneHourAvgSpeed = null, maxLapsInOneHourDate = null, isLoading, chartsOnly = false, className }: ChartTabsProps) {
   const grafiekenContent = (
     <div className="space-y-6">
       <ErrorBoundary>
@@ -28,6 +55,9 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, chartsOnly 
       </ErrorBoundary>
       <ErrorBoundary>
         {isLoading ? <ChartSkeleton /> : <SpeedLineChart laps={laps} />}
+      </ErrorBoundary>
+      <ErrorBoundary>
+        {isLoading ? <ChartSkeleton /> : <LapsPerSeasonBarChart laps={allLapsForSeasons} />}
       </ErrorBoundary>
       <ErrorBoundary>
         {isLoading ? <ChartSkeleton /> : <ProgressChart laps={allLapsForSeasons} />}
@@ -82,7 +112,13 @@ function ChartTabsInner({ laps, allLapsForSeasons = laps, isLoading, chartsOnly 
         {grafiekenContent}
       </TabsContent>
 
-      <TabsContent value="records" className="mt-3" role="tabpanel">
+      <TabsContent value="records" className="mt-3 space-y-3 min-w-0" role="tabpanel">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
+          <BestSeasonTile bestLapSeason={bestLapSeason} bestLapSeasonSpeed={bestLapSeasonSpeed} date={bestLapSeasonDate} />
+          <Best5Tile totalTime={best5TotalTime} avgSpeed={best5AvgSpeed} date={best5Date} />
+          <MaxLapsInSessionTile maxLaps={maxLapsInSession} date={maxLapsInSessionDate} />
+          <MaxLapsInOneHourTile maxLaps={maxLapsInOneHour} avgSpeed={maxLapsInOneHourAvgSpeed} date={maxLapsInOneHourDate} />
+        </div>
         <ErrorBoundary>
           {isLoading ? <TableSkeleton /> : <Top10Table laps={allLapsForSeasons} />}
         </ErrorBoundary>

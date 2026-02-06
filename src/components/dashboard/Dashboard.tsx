@@ -6,6 +6,10 @@ import { ChartTabs } from "./ChartTabs";
 import { DateSelector } from "./DateSelector";
 import { LapTimesList } from "./charts/LapTimesList";
 import { StatsCards } from "./StatsCards";
+import { BestSeasonTile } from "./BestSeasonTile";
+import { MaxLapsInSessionTile } from "./MaxLapsInSessionTile";
+import { MaxLapsInOneHourTile } from "./MaxLapsInOneHourTile";
+import { Best5Tile } from "./Best5Tile";
 import { Top10Table } from "./charts/Top10Table";
 import { SeasonHeatmap } from "./charts/SeasonHeatmap";
 import { TableSkeleton, HeatmapSkeleton } from "@/components/ChartSkeleton";
@@ -15,10 +19,12 @@ import {
   filterLaps,
   filterLapsByDate,
   getBestLapTimeThisSeason,
-  getUniqueDatesFromLaps,
   getLapsPerDate,
+  getMaxLapsInOneHour,
+  getUniqueDatesFromLaps,
   type SchaatsLap,
 } from "@/lib/data";
+import { getBest5LapsStats } from "@/lib/chart-utils";
 import { lapDataToSchaatsLaps } from "@/lib/live-data";
 import { getTop10Bests, getVenueComparisonData } from "@/lib/chart-utils";
 import {
@@ -118,7 +124,15 @@ export function Dashboard() {
   }, [filteredLaps, selectedDate]);
 
   const stats = useMemo(() => {
-    const bestLapSeason = getBestLapTimeThisSeason(filteredLaps);
+    const bestLapSeasonResult = getBestLapTimeThisSeason(filteredLaps);
+    const maxLapsInSession =
+      lapsPerDate.size > 0 ? Math.max(...lapsPerDate.values()) : 0;
+    const maxLapsInSessionDate =
+      maxLapsInSession > 0
+        ? Array.from(lapsPerDate.entries()).find(([, c]) => c === maxLapsInSession)?.[0] ?? null
+        : null;
+    const maxLapsInOneHourResult = getMaxLapsInOneHour(filteredLaps);
+    const best5Result = getBest5LapsStats(filteredLaps);
     if (displayLaps.length === 0) {
       return {
         totalLaps: 0,
@@ -126,7 +140,17 @@ export function Dashboard() {
         avgSnelheid: 0,
         maxSnelheid: 0,
         bestLap: null as SchaatsLap | null,
-        bestLapSeason,
+        bestLapSeason: bestLapSeasonResult.time,
+        bestLapSeasonSpeed: bestLapSeasonResult.speed,
+        bestLapSeasonDate: bestLapSeasonResult.date,
+        best5TotalTime: best5Result.totalTime,
+        best5AvgSpeed: best5Result.avgSpeed,
+        best5Date: best5Result.date,
+        maxLapsInSession,
+        maxLapsInSessionDate,
+        maxLapsInOneHour: maxLapsInOneHourResult.maxLaps,
+        maxLapsInOneHourAvgSpeed: maxLapsInOneHourResult.avgSpeed,
+        maxLapsInOneHourDate: maxLapsInOneHourResult.date,
         totalDistance: 0,
         personalBests: [] as ReturnType<typeof getTop10Bests>,
         venueStats: [] as ReturnType<typeof getVenueComparisonData>,
@@ -144,13 +168,23 @@ export function Dashboard() {
       avgSnelheid: Math.round((totalSnelheid / displayLaps.length) * 10) / 10,
       maxSnelheid: Math.round(maxSnelheid * 10) / 10,
       bestLap,
-      bestLapSeason,
+      bestLapSeason: bestLapSeasonResult.time,
+      bestLapSeasonSpeed: bestLapSeasonResult.speed,
+      bestLapSeasonDate: bestLapSeasonResult.date,
+      best5TotalTime: best5Result.totalTime,
+      best5AvgSpeed: best5Result.avgSpeed,
+      best5Date: best5Result.date,
       totalDistance:
         Math.round(displayLaps.length * LAP_DISTANCE_KM * 10) / 10,
       personalBests: getTop10Bests(displayLaps),
       venueStats: getVenueComparisonData(displayLaps),
+      maxLapsInSession,
+      maxLapsInSessionDate,
+      maxLapsInOneHour: maxLapsInOneHourResult.maxLaps,
+      maxLapsInOneHourAvgSpeed: maxLapsInOneHourResult.avgSpeed,
+      maxLapsInOneHourDate: maxLapsInOneHourResult.date,
     };
-  }, [displayLaps, filteredLaps]);
+  }, [displayLaps, filteredLaps, lapsPerDate]);
 
   return (
     <SidebarProvider>
@@ -224,7 +258,6 @@ export function Dashboard() {
                         <StatsCards
                           totalLaps={stats.totalLaps}
                           bestLap={stats.bestLap?.lap_time ?? null}
-                          bestLapSeason={stats.bestLapSeason}
                           avgSpeed={stats.avgSnelheid}
                           maxSpeed={stats.maxSnelheid}
                           totalDistance={stats.totalDistance}
@@ -241,9 +274,17 @@ export function Dashboard() {
                       />
                     )}
                     {mobileTab === "records" && (
-                      <ErrorBoundary>
-                        {loading ? <TableSkeleton /> : <Top10Table laps={filterLaps(allLaps, "ALLEMAAL")} />}
-                      </ErrorBoundary>
+                      <div className="space-y-3 min-w-0">
+                        <div className="grid grid-cols-2 gap-2 sm:gap-3 min-w-0">
+                          <BestSeasonTile bestLapSeason={stats.bestLapSeason} bestLapSeasonSpeed={stats.bestLapSeasonSpeed} date={stats.bestLapSeasonDate} />
+                          <Best5Tile totalTime={stats.best5TotalTime} avgSpeed={stats.best5AvgSpeed} date={stats.best5Date} />
+                          <MaxLapsInSessionTile maxLaps={stats.maxLapsInSession} date={stats.maxLapsInSessionDate} />
+                          <MaxLapsInOneHourTile maxLaps={stats.maxLapsInOneHour} avgSpeed={stats.maxLapsInOneHourAvgSpeed} date={stats.maxLapsInOneHourDate} />
+                        </div>
+                        <ErrorBoundary>
+                          {loading ? <TableSkeleton /> : <Top10Table laps={filterLaps(allLaps, "ALLEMAAL")} />}
+                        </ErrorBoundary>
+                      </div>
                     )}
                     {mobileTab === "seizoenen" && (
                       <ErrorBoundary>
@@ -257,7 +298,6 @@ export function Dashboard() {
                     <StatsCards
                       totalLaps={stats.totalLaps}
                       bestLap={stats.bestLap?.lap_time ?? null}
-                      bestLapSeason={stats.bestLapSeason}
                       avgSpeed={stats.avgSnelheid}
                       maxSpeed={stats.maxSnelheid}
                       totalDistance={stats.totalDistance}
@@ -266,6 +306,17 @@ export function Dashboard() {
                     <ChartTabs
                       laps={displayLaps}
                       allLapsForSeasons={filterLaps(allLaps, "ALLEMAAL")}
+                      bestLapSeason={stats.bestLapSeason}
+                      bestLapSeasonSpeed={stats.bestLapSeasonSpeed}
+                      bestLapSeasonDate={stats.bestLapSeasonDate}
+                      best5TotalTime={stats.best5TotalTime}
+                      best5AvgSpeed={stats.best5AvgSpeed}
+                      best5Date={stats.best5Date}
+                      maxLapsInSession={stats.maxLapsInSession}
+                      maxLapsInSessionDate={stats.maxLapsInSessionDate}
+                      maxLapsInOneHour={stats.maxLapsInOneHour}
+                      maxLapsInOneHourAvgSpeed={stats.maxLapsInOneHourAvgSpeed}
+                      maxLapsInOneHourDate={stats.maxLapsInOneHourDate}
                       isLoading={loading}
                     />
                   </div>

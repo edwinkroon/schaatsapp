@@ -2,6 +2,7 @@ import { memo } from "react";
 import {
   LineChart,
   Line,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -56,6 +57,16 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
         <div className="h-[220px] sm:h-[280px] md:h-[350px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
+              <defs>
+                <linearGradient id="lapTimeGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#3b82f6" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#3b82f6" stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="lapTimeStroke" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#2563eb" />
+                  <stop offset="100%" stopColor="#60a5fa" />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
               <XAxis
                 dataKey="lap"
@@ -85,13 +96,19 @@ function LapTimeLineChartInner({ laps }: LapTimeLineChartProps) {
                   ) : null
                 }
               />
+              <Area
+                type="monotone"
+                dataKey="lapTime"
+                fill="url(#lapTimeGradient)"
+                stroke="none"
+              />
               <Line
                 type="monotone"
                 dataKey="lapTime"
-                stroke="var(--chart-1)"
-                strokeWidth={2}
-                dot={{ r: 2 }}
-                activeDot={{ r: 4 }}
+                stroke="url(#lapTimeStroke)"
+                strokeWidth={2.5}
+                dot={{ r: 2.5, fill: "#3b82f6" }}
+                activeDot={{ r: 5, fill: "#3b82f6", stroke: "#fff", strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>

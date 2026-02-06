@@ -2,6 +2,7 @@ import { memo } from "react";
 import {
   LineChart,
   Line,
+  Area,
   XAxis,
   YAxis,
   CartesianGrid,
@@ -58,6 +59,16 @@ function SpeedLineChartInner({ laps }: SpeedLineChartProps) {
         <div className="h-[220px] sm:h-[280px] md:h-[350px] w-full min-w-0">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart data={data} margin={{ top: 4, right: 4, left: -8, bottom: 4 }}>
+              <defs>
+                <linearGradient id="speedGradient" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#f59e0b" stopOpacity={0.3} />
+                  <stop offset="100%" stopColor="#f59e0b" stopOpacity={0} />
+                </linearGradient>
+                <linearGradient id="speedStroke" x1="0" y1="0" x2="1" y2="0">
+                  <stop offset="0%" stopColor="#d97706" />
+                  <stop offset="100%" stopColor="#fbbf24" />
+                </linearGradient>
+              </defs>
               <CartesianGrid strokeDasharray="3 3" className="stroke-muted" />
               <XAxis
                 dataKey="lap"
@@ -88,13 +99,19 @@ function SpeedLineChartInner({ laps }: SpeedLineChartProps) {
                 }
               />
               <ReferenceLine y={avgSnelheid} stroke="var(--muted-foreground)" strokeDasharray="3 3" />
+              <Area
+                type="monotone"
+                dataKey="snelheid"
+                fill="url(#speedGradient)"
+                stroke="none"
+              />
               <Line
                 type="monotone"
                 dataKey="snelheid"
-                stroke="var(--chart-2)"
-                strokeWidth={2}
-                dot={{ r: 2 }}
-                activeDot={{ r: 4 }}
+                stroke="url(#speedStroke)"
+                strokeWidth={2.5}
+                dot={{ r: 2.5, fill: "#f59e0b" }}
+                activeDot={{ r: 5, fill: "#f59e0b", stroke: "#fff", strokeWidth: 2 }}
               />
             </LineChart>
           </ResponsiveContainer>

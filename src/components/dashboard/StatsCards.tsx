@@ -4,7 +4,6 @@ import { cn, formatLapTimeSeconds } from "@/lib/utils";
 interface StatsCardsProps {
   totalLaps: number;
   bestLap: number | null;
-  bestLapSeason: number | null;
   avgSpeed: number;
   maxSpeed: number;
   totalDistance: number;
@@ -14,7 +13,6 @@ interface StatsCardsProps {
 const cards = [
   { key: "laps", title: "Ronden", value: (v: number) => v.toLocaleString() },
   { key: "best", title: "Beste ronde (s)", value: (v: number) => formatLapTimeSeconds(v) },
-  { key: "bestSeason", title: "Beste seizoentijd (s)", value: (v: number) => formatLapTimeSeconds(v) },
   { key: "speed", title: "Gem. snelheid (km/h)", value: (v: number) => v.toFixed(1) },
   { key: "maxSpeed", title: "Hoogste snelheid (km/h)", value: (v: number) => v.toFixed(1) },
   { key: "distance", title: "Afstand (km)", value: (v: number) => v.toFixed(1) },
@@ -23,7 +21,6 @@ const cards = [
 export function StatsCards({
   totalLaps,
   bestLap,
-  bestLapSeason,
   avgSpeed,
   maxSpeed,
   totalDistance,
@@ -32,7 +29,6 @@ export function StatsCards({
   const values = {
     laps: totalLaps,
     best: bestLap ?? 0,
-    bestSeason: bestLapSeason ?? 0,
     speed: avgSpeed,
     maxSpeed,
     distance: totalDistance,
@@ -51,11 +47,7 @@ export function StatsCards({
               {title}
             </p>
             <p className="font-bold text-base tabular-nums truncate">
-              {key === "best" && bestLap === null
-                ? "—"
-                : key === "bestSeason" && bestLapSeason === null
-                  ? "—"
-                  : value(values[key])}
+              {key === "best" && bestLap === null ? "—" : value(values[key])}
             </p>
           </Card>
         ))}
@@ -79,11 +71,7 @@ export function StatsCards({
             </CardHeader>
             <CardContent className="pb-1 pt-0 sm:pb-3 sm:pt-0 flex-1 flex items-end min-h-0">
               <p className="text-base font-bold tracking-tight break-words tabular-nums text-left sm:text-lg md:text-xl w-full">
-                {key === "best" && bestLap === null
-                  ? "—"
-                  : key === "bestSeason" && bestLapSeason === null
-                    ? "—"
-                    : value(values[key])}
+                {key === "best" && bestLap === null ? "—" : value(values[key])}
               </p>
             </CardContent>
           </Card>
